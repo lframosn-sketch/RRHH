@@ -148,6 +148,18 @@
 
   <p id="idDatos" style="font-size:15px"></p>
 
+  <h3>Guarde su resultado</h3>
+  <p id="estadoGuardado" style="font-size:15px"></p>
+  <div class="nav" style="flex-wrap:wrap;gap:10px">
+    <span style="flex:1"></span>
+    <button class="btn fin" id="btnImagen">🖼 Descargar mi resultado como imagen (PNG)</button>
+  </div>
+  <p class="ayuda" id="pieImagen">La imagen es ideal para guardarla en el celular o compartirla por mensaje.</p>
+  <div id="vistaPrevia" class="oculto">
+    <h3>Vista previa de la imagen</h3>
+    <canvas id="lienzo" style="width:100%;max-width:700px;border:1px solid var(--borde);border-radius:10px"></canvas>
+  </div>
+
   <h3>Puntajes por factor</h3>
   <div class="res">
     <div class="b"><div class="l">D</div><div class="n">Dominancia</div><div style="font-size:15px;margin-top:6px" id="rD"></div></div>
@@ -161,18 +173,6 @@
     <tbody id="tblPts"></tbody>
   </table>
   <p class="ayuda">Este reporte muestra únicamente los puntajes obtenidos. La interpretación del perfil la realiza el área de Recursos Humanos.</p>
-
-  <h3>Guarde su resultado</h3>
-  <p id="estadoGuardado" style="font-size:15px"></p>
-  <div class="nav" style="flex-wrap:wrap;gap:10px">
-    <span style="flex:1"></span>
-    <button class="btn fin" id="btnImagen">🖼 Descargar mi resultado como imagen (PNG)</button>
-  </div>
-  <p class="ayuda" id="pieImagen">La imagen es ideal para guardarla en el celular o compartirla por mensaje.</p>
-  <div id="vistaPrevia" class="oculto">
-    <h3>Vista previa de la imagen</h3>
-    <canvas id="lienzo" style="width:100%;max-width:700px;border:1px solid var(--borde);border-radius:10px"></canvas>
-  </div>
 </section>
 
 <!-- ===================== PANEL RRHH ===================== -->
