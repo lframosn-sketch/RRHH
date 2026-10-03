@@ -169,9 +169,14 @@
   </div>
 
   <table class="pts">
-    <thead><tr><th>Factor</th><th>MÁS<br>(Gráfica I)</th><th>MENOS<br>(Gráfica II)</th><th>MÁS − MENOS<br>(Gráfica III)</th></tr></thead>
+    <thead><tr><th>Factor</th><th>MÁS<br>(Gráfica I)</th><th>MENOS<br>(Gráfica II)</th><th>MÁS − MENOS<br>(Gráfica III)</th><th>Valor<br>equivalente</th></tr></thead>
     <tbody id="tblPts"></tbody>
   </table>
+  <p class="ayuda">El <strong>Valor equivalente</strong> se obtiene buscando la diferencia (Más − Menos) de cada factor en la tabla de escalas oficial.</p>
+  <p class="ayuda" id="notaFuera" style="display:none;color:#8c1d18">* Esta diferencia queda fuera del rango publicado en la tabla; se tomó el valor del extremo más cercano. Confírmelo con Recursos Humanos.</p>
+
+  <h3>Gráfica de valores DISC</h3>
+  <canvas id="lienzoG" style="width:100%;max-width:620px;border:1px solid var(--borde);border-radius:10px"></canvas>
   <p class="ayuda">Este reporte muestra únicamente los puntajes obtenidos. La interpretación del perfil la realiza el área de Recursos Humanos.</p>
 </section>
 
@@ -802,6 +807,18 @@ const DATA = [
 ];
 const FACTORES = [["D","Dominancia"],["I","Influencia"],["S","Estabilidad"],["C","Cumplimiento"]];
 
+/* Tabla de equivalencia Dif -> Valor (archivo disceval_grafica.xlsx).
+   Por cada factor: "min" = primer valor de la escala, "v" = valores consecutivos. */
+const TABLA = {"D":{"min":-20,"v":[2,2,2,2,2,2,2,4,5,5,9,13,15,16,20,25,29,35,40,45,50,55,60,65,67,70,75,80,84,85,90,91,94,95,96,97,97,98,98,98,99]},"I":{"min":-18,"v":[2,2,2,2,2,2,2,2,3,4,5,6,10,16,20,29,35,45,55,60,70,75,85,90,95,96,97,97,98,98,98,98,98,98,98,99]},"S":{"min":-18,"v":[2,2,2,2,2,2,3,4,5,8,10,15,20,25,30,35,40,50,57,60,70,75,80,84,87,91,94,96,97,97,98,98,98,98,98,98,98,99]},"C":{"min":-15,"v":[2,2,2,2,3,4,6,9,13,20,25,35,40,55,60,70,75,84,90,95,96,97,97,98,98,98,98,98,98,98,99]}};
+
+/* Convierte la diferencia (Más − Menos) al valor de la tabla.
+   Si la diferencia cayera fuera del rango publicado, se usa el extremo más cercano. */
+function valorDe(k, dif){
+  const t = TABLA[k];
+  const i = Math.min(Math.max(dif - t.min, 0), t.v.length - 1);
+  return { valor: t.v[i], fuera: (dif < t.min || dif > t.min + t.v.length - 1) };
+}
+
 /* ============ ESTADO ============ */
 let idx = 0;                                   // grupo actual (0..23)
 const resp = DATA.map(()=>({mas:null,menos:null}));
@@ -888,19 +905,95 @@ function calcular(){
     if(wN && wN.menos) menos[wN.menos]++;
     detalle.push({grupo:g.grupo, palMas:wM.p, facMas:wM.mas||"No aplica", palMenos:wN.p, facMenos:wN.menos||"No aplica"});
   });
-  const dif={}; ["D","I","S","C"].forEach(k=>dif[k]=mas[k]-menos[k]);
-  return {mas,menos,dif,detalle};
+  const dif={}, valor={}, fuera={};
+  ["D","I","S","C"].forEach(k=>{
+    dif[k]=mas[k]-menos[k];
+    const e=valorDe(k,dif[k]); valor[k]=e.valor; fuera[k]=e.fuera;
+  });
+  return {mas,menos,dif,valor,fuera,detalle};
 }
 
 function mostrar(res){
   $("idDatos").innerHTML = `<strong>${persona.nombre}</strong> &middot; ${persona.correo} &middot; ${persona.puesto}<br>
     <span class="ayuda">Fecha de envío: ${new Date().toLocaleString("es-MX")}</span>`;
   ["D","I","S","C"].forEach(k=>{
-    $("r"+k).innerHTML = `Más <strong>${res.mas[k]}</strong> &middot; Menos <strong>${res.menos[k]}</strong><br>Dif. <strong>${res.dif[k]>0?"+":""}${res.dif[k]}</strong>`;
+    $("r"+k).innerHTML = `Más <strong>${res.mas[k]}</strong> &middot; Menos <strong>${res.menos[k]}</strong><br>` +
+      `Dif. <strong>${res.dif[k]>0?"+":""}${res.dif[k]}</strong><br>` +
+      `<span style="font-size:22px;font-weight:700;color:${COLOR[k]}">${res.valor[k]}</span>`;
   });
   $("tblPts").innerHTML = FACTORES.map(([k,n])=>
-    `<tr><td><strong>${k}</strong> — ${n}</td><td>${res.mas[k]}</td><td>${res.menos[k]}</td><td><strong>${res.dif[k]>0?"+":""}${res.dif[k]}</strong></td></tr>`
-  ).join("") + `<tr style="background:#f7fafd"><td><strong>Total</strong></td><td>${res.mas.D+res.mas.I+res.mas.S+res.mas.C}</td><td>${res.menos.D+res.menos.I+res.menos.S+res.menos.C}</td><td>—</td></tr>`;
+    `<tr><td><strong>${k}</strong> — ${n}</td><td>${res.mas[k]}</td><td>${res.menos[k]}</td><td><strong>${res.dif[k]>0?"+":""}${res.dif[k]}</strong></td><td><strong>${res.valor[k]}</strong>${res.fuera[k]?" *":""}</td></tr>`
+  ).join("") + `<tr style="background:#f7fafd"><td><strong>Total</strong></td><td>${res.mas.D+res.mas.I+res.mas.S+res.mas.C}</td><td>${res.menos.D+res.menos.I+res.menos.S+res.menos.C}</td><td>—</td><td>—</td></tr>`;
+  $("notaFuera").style.display = ["D","I","S","C"].some(k=>res.fuera[k]) ? "block" : "none";
+  dibujarGrafica($("lienzoG"), res);
+}
+
+/* ---- Gráfica de línea vertical sobre los valores de la tabla ---- */
+function dibujarGrafica(cv, res, e){
+  e = e || 2;
+  const W=620, H=430;
+  cv.width=W*e; cv.height=H*e;
+  const x=cv.getContext("2d");
+  x.setTransform(e,0,0,e,0,0);
+  x.fillStyle="#ffffff"; x.fillRect(0,0,W,H);
+  graficaEn(x, res, 0, 0, W, H, true);
+}
+
+/* Dibuja la gráfica dentro de un contexto, en el rectángulo indicado. */
+function graficaEn(x, res, ox, oy, W, H, conTitulo){
+  x.save(); x.translate(ox, oy);
+  const mx=56, my=conTitulo?44:16, gw=W-mx-26, gh=H-my-56;
+  const py = v => my + gh - (v/100)*gh;          // valor 0..100 -> coordenada vertical
+  const px = i => mx + gw*(i+0.5)/4;             // columna D I S C
+
+  // marco
+  x.strokeStyle="#d8dee6"; x.lineWidth=1;
+  x.strokeRect(mx, my, gw, gh);
+
+  // líneas horizontales de referencia
+  x.font="11px Segoe UI, Arial, sans-serif"; x.textAlign="right"; x.textBaseline="middle";
+  for(let v=0; v<=100; v+=10){
+    const yy=py(v);
+    x.strokeStyle = v===50 ? "#9fb3c8" : "#eef2f6";
+    x.lineWidth   = v===50 ? 1.5 : 1;
+    if(v>0&&v<100){ x.beginPath(); x.moveTo(mx,yy); x.lineTo(mx+gw,yy); x.stroke(); }
+    x.fillStyle="#8a94a2"; x.fillText(v, mx-8, yy);
+  }
+  // separadores verticales de cada columna
+  x.strokeStyle="#eef2f6"; x.lineWidth=1;
+  for(let i=1;i<4;i++){ const xx=mx+gw*i/4; x.beginPath(); x.moveTo(xx,my); x.lineTo(xx,my+gh); x.stroke(); }
+
+  // línea que une los cuatro valores
+  x.strokeStyle="#1f4e79"; x.lineWidth=2.5; x.beginPath();
+  FACTORES.forEach(([k],i)=>{ const p=[px(i),py(res.valor[k])]; i?x.lineTo(...p):x.moveTo(...p); });
+  x.stroke();
+
+  // puntos y etiquetas
+  FACTORES.forEach(([k],i)=>{
+    const cx=px(i), cy=py(res.valor[k]);
+    x.fillStyle=COLOR[k]; x.beginPath(); x.arc(cx,cy,7,0,Math.PI*2); x.fill();
+    x.strokeStyle="#ffffff"; x.lineWidth=2; x.stroke();
+    x.fillStyle=COLOR[k]; x.textAlign="center"; x.textBaseline="alphabetic";
+    x.font="bold 15px Segoe UI, Arial, sans-serif";
+    x.fillText(res.valor[k], cx, cy>my+28 ? cy-14 : cy+26);
+  });
+
+  // etiquetas del eje X
+  FACTORES.forEach(([k,n],i)=>{
+    const cx=px(i);
+    x.fillStyle=COLOR[k]; x.textAlign="center"; x.font="bold 20px Segoe UI, Arial, sans-serif";
+    x.fillText(k, cx, my+gh+26);
+    x.fillStyle="#5a6472"; x.font="11px Segoe UI, Arial, sans-serif";
+    x.fillText(n, cx, my+gh+42);
+    x.fillStyle="#8a94a2"; x.font="11px Segoe UI, Arial, sans-serif";
+    x.fillText("Dif. "+(res.dif[k]>0?"+":"")+res.dif[k], cx, my+gh+56);
+  });
+
+  if(conTitulo){
+    x.fillStyle="#1f4e79"; x.textAlign="left"; x.font="bold 15px Segoe UI, Arial, sans-serif";
+    x.fillText("Gráfica de valores DISC", mx-30, 26);
+  }
+  x.restore();
 }
 
 /* ============ GUARDADO ============ */
@@ -912,7 +1005,7 @@ function leerRegistros(){
 }
 function guardar(res){
   ULTIMO = res;
-  const payload = {persona, mas:res.mas, menos:res.menos, dif:res.dif, detalle:res.detalle, fecha:new Date().toISOString()};
+  const payload = {persona, mas:res.mas, menos:res.menos, dif:res.dif, valor:res.valor, detalle:res.detalle, fecha:new Date().toISOString()};
   let n = 0;
   try{
     const lista = leerRegistros();
@@ -993,7 +1086,7 @@ function zipStore(files){
 const COLOR = {D:"#c0392b", I:"#e8a33d", S:"#2e7d32", C:"#2e75b6"};
 
 function dibujarResultado(cv){
-  const W=700, H=620, e=2;            // e = escala para que se vea nítido
+  const W=700, H=780, e=2;            // e = escala para que se vea nítido
   cv.width=W*e; cv.height=H*e;
   const x=cv.getContext("2d");
   x.scale(e,e);
@@ -1025,46 +1118,24 @@ function dibujarResultado(cv){
   FACTORES.forEach(([k],i)=>{
     const px=x0+i*(an+sep), py=206;
     x.fillStyle="#f7fafd"; x.strokeStyle=COLOR[k]; x.lineWidth=2;
-    redondeado(x,px,py,an,116,10); x.fill(); x.stroke();
+    redondeado(x,px,py,an,140,10); x.fill(); x.stroke();
     x.fillStyle=COLOR[k]; x.textAlign="center";
-    x.font="bold 44px Segoe UI, Arial, sans-serif"; x.fillText(k, px+an/2, py+50);
+    x.font="bold 40px Segoe UI, Arial, sans-serif"; x.fillText(k, px+an/2, py+46);
     x.fillStyle="#5a6472"; x.font="13px Segoe UI, Arial, sans-serif";
-    x.fillText(nom[k], px+an/2, py+72);
-    x.fillStyle="#1f2430"; x.font="bold 15px Segoe UI, Arial, sans-serif";
+    x.fillText(nom[k], px+an/2, py+66);
+    x.fillStyle="#1f2430"; x.font="14px Segoe UI, Arial, sans-serif";
     const d=r.dif[k];
-    x.fillText("Más "+r.mas[k]+"  ·  Menos "+r.menos[k], px+an/2, py+94);
-    x.fillStyle=COLOR[k];
-    x.fillText("Dif. "+(d>0?"+":"")+d, px+an/2, py+112);
+    x.fillText("Más "+r.mas[k]+"  ·  Menos "+r.menos[k], px+an/2, py+88);
+    x.fillText("Dif. "+(d>0?"+":"")+d, px+an/2, py+107);
+    x.fillStyle=COLOR[k]; x.font="bold 26px Segoe UI, Arial, sans-serif";
+    x.fillText(r.valor[k], px+an/2, py+132);
   });
 
-  // gráfica de barras (diferencia)
+  // gráfica de línea vertical con los valores de la tabla
   x.textAlign="left"; x.fillStyle="#1f4e79";
   x.font="bold 16px Segoe UI, Arial, sans-serif";
-  x.fillText("Gráfica III — Diferencia (Más − Menos)", 40, 356);
-
-  const gx=70, gy=386, gw=W-110, gh=170, cero=gy+gh/2;
-  let tope=1; FACTORES.forEach(([k])=>{ tope=Math.max(tope, Math.abs(r.dif[k])); });
-  const esc=(gh/2-16)/tope;
-  // eje cero
-  x.strokeStyle="#c3ccd8"; x.lineWidth=1;
-  x.beginPath(); x.moveTo(gx-22,cero); x.lineTo(gx+gw,cero); x.stroke();
-  x.fillStyle="#8a94a2"; x.font="12px Segoe UI, Arial, sans-serif"; x.textAlign="right";
-  x.fillText("0", gx-28, cero+4);
-
-  const bw=58, paso=gw/4;
-  FACTORES.forEach(([k],i)=>{
-    const d=r.dif[k];
-    const cx=gx+paso*i+paso/2, alto=Math.abs(d)*esc;
-    const py=d>=0 ? cero-alto : cero;
-    x.fillStyle=COLOR[k];
-    redondeado(x, cx-bw/2, py, bw, Math.max(alto,2), 4); x.fill();
-    // valor
-    x.textAlign="center"; x.font="bold 14px Segoe UI, Arial, sans-serif";
-    x.fillText((d>0?"+":"")+d, cx, d>=0 ? py-7 : py+alto+18);
-    // etiqueta del factor
-    x.fillStyle="#1f2430"; x.font="bold 16px Segoe UI, Arial, sans-serif";
-    x.fillText(k, cx, gy+gh+22);
-  });
+  x.fillText("Gráfica de valores DISC", 40, 378);
+  graficaEn(x, r, 30, 390, 640, 330, false);
 
   // pie
   x.textAlign="center"; x.fillStyle="#8a94a2";
@@ -1110,10 +1181,15 @@ function pintarPanel(){
     : "Todavía no hay tests guardados en este equipo.";
   $("tblPanel").innerHTML = lista.length ? (
     "<thead><tr><th>#</th><th>Nombre</th><th>Correo</th><th>Puesto</th><th>Fecha</th>" +
-    FACTORES.map(([k])=>"<th>"+k+" Dif</th>").join("") + "</tr></thead><tbody>" +
-    lista.map((r,i)=>"<tr><td>"+(i+1)+"</td><td>"+r.persona.nombre+"</td><td>"+r.persona.correo+
+    FACTORES.map(([k])=>"<th>"+k+" Dif</th>").join("") +
+    FACTORES.map(([k])=>"<th>"+k+" Valor</th>").join("") + "</tr></thead><tbody>" +
+    lista.map((r,i)=>{
+      const val = r.valor || Object.fromEntries(FACTORES.map(([k])=>[k, valorDe(k, r.dif[k]).valor]));
+      return "<tr><td>"+(i+1)+"</td><td>"+r.persona.nombre+"</td><td>"+r.persona.correo+
       "</td><td>"+r.persona.puesto+"</td><td>"+new Date(r.fecha).toLocaleString("es-MX")+"</td>" +
-      FACTORES.map(([k])=>"<td><strong>"+(r.dif[k]>0?"+":"")+r.dif[k]+"</strong></td>").join("")+"</tr>").join("") +
+      FACTORES.map(([k])=>"<td>"+(r.dif[k]>0?"+":"")+r.dif[k]+"</td>").join("") +
+      FACTORES.map(([k])=>"<td><strong>"+val[k]+"</strong></td>").join("")+"</tr>";
+    }).join("") +
     "</tbody>") : "";
   $("btnExcelTodos").disabled = !lista.length;
   $("btnBorrar").disabled = !lista.length;
@@ -1131,12 +1207,16 @@ $("btnExcelTodos").onclick = ()=>{
   const lista = leerRegistros();
   if(!lista.length) return;
   const resumen = [["#","Fecha y hora","Nombre completo","Correo electrónico","Profesión / Puesto",
-      "D Más","I Más","S Más","C Más","D Menos","I Menos","S Menos","C Menos","D Dif","I Dif","S Dif","C Dif"]];
+      "D Más","I Más","S Más","C Más","D Menos","I Menos","S Menos","C Menos","D Dif","I Dif","S Dif","C Dif",
+      "D Valor","I Valor","S Valor","C Valor"]];
   const detalle = [["#","Nombre completo","Correo electrónico","Grupo","Palabra MÁS","Factor MÁS","Palabra MENOS","Factor MENOS"]];
   lista.forEach((r,i)=>{
     const n = i+1;
+    // registros antiguos (sin valor guardado) se convierten al vuelo
+    const val = r.valor || Object.fromEntries(FACTORES.map(([k])=>[k, valorDe(k, r.dif[k]).valor]));
     resumen.push([n, new Date(r.fecha).toLocaleString("es-MX"), r.persona.nombre, r.persona.correo, r.persona.puesto,
-      ...FACTORES.map(([k])=>r.mas[k]), ...FACTORES.map(([k])=>r.menos[k]), ...FACTORES.map(([k])=>r.dif[k])]);
+      ...FACTORES.map(([k])=>r.mas[k]), ...FACTORES.map(([k])=>r.menos[k]), ...FACTORES.map(([k])=>r.dif[k]),
+      ...FACTORES.map(([k])=>val[k])]);
     r.detalle.forEach(d=>detalle.push([n, r.persona.nombre, r.persona.correo, d.grupo, d.palMas, d.facMas, d.palMenos, d.facMenos]));
   });
   bajar(construirXLSX([{nombre:"Resultados",filas:resumen},{nombre:"Detalle",filas:detalle}]),
