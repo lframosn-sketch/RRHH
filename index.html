@@ -1,749 +1,1153 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="robots" content="noindex,nofollow">
-<title>Cuestionario DISC</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Test DISC: Conoce tu Perfil</title>
 <style>
-  :root{--az:#1f3864;--az2:#2e5c8a;--bg:#f4f6fa;--ok:#2e7d32;--wr:#b26a00;--bd:#d7dce5;
-        --D:#c0392b;--I:#e0a800;--S:#2e7d32;--C:#2e5c8a}
-  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-  body{margin:0;background:var(--bg);color:#1b1f26;
-       font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
-       font-size:16px;line-height:1.45}
-  .wrap{max-width:560px;margin:0 auto;padding:16px 16px 96px}
-  h1{font-size:19px;color:var(--az);margin:0 0 4px}
-  h2{font-size:16px;color:var(--az);margin:20px 0 8px}
-  .card{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:16px;margin-bottom:14px}
-  .muted{color:#5b6472;font-size:13px}
-  .warn{background:#fff8e6;border:1px solid #f0d08a;border-radius:10px;padding:12px;font-size:13px}
-  label{display:block;font-size:13px;font-weight:600;color:#39414f;margin:10px 0 4px}
-  input[type=text],input[type=email]{width:100%;padding:11px;border:1px solid var(--bd);
-       border-radius:9px;font-size:16px;font-family:inherit}
-  button{font-family:inherit;font-size:16px;border-radius:10px;cursor:pointer;border:0}
-  .btn{background:var(--az);color:#fff;padding:13px 18px;width:100%;font-weight:600}
-  .btn:disabled{background:#aeb6c2;cursor:not-allowed}
-  .btn2{background:#fff;color:var(--az);border:1px solid var(--az);padding:11px 16px;width:100%;
-        font-weight:600;margin-top:8px}
-  .bar{height:7px;background:#e3e8f0;border-radius:4px;overflow:hidden;margin:10px 0 2px}
-  .bar>i{display:block;height:100%;background:var(--az2);width:0;transition:width .25s}
-  .opt{display:flex;gap:10px;align-items:center;border:1px solid var(--bd);border-radius:10px;
-       padding:12px;margin-bottom:8px;background:#fff;cursor:pointer;user-select:none}
-  .opt.sel-mas{border-color:var(--ok);background:#eef7ee;box-shadow:inset 0 0 0 1px var(--ok)}
-  .opt.sel-men{border-color:var(--wr);background:#fdf4e6;box-shadow:inset 0 0 0 1px var(--wr)}
-  .opt .txt{flex:1}
-  .tag{font-size:11px;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap}
-  .tag.m{background:var(--ok);color:#fff}
-  .tag.n{background:var(--wr);color:#fff}
-  .mode{display:flex;gap:8px;margin:10px 0 12px}
-  .mode button{flex:1;padding:11px;border:1px solid var(--bd);background:#fff;font-weight:600;font-size:14px}
-  .mode button.on{background:var(--az);color:#fff;border-color:var(--az)}
-  .nav{display:flex;gap:10px;margin-top:6px}
-  .nav button{flex:1}
-  table{width:100%;border-collapse:collapse;font-size:14px}
-  th,td{border:1px solid var(--bd);padding:8px;text-align:center}
-  th{background:var(--az);color:#fff;font-weight:600}
-  td.lab{text-align:left;font-weight:600}
-  .gb{height:20px;background:#eef1f6;border-radius:4px;overflow:hidden;position:relative}
-  .gb>i{display:block;height:100%}
-  .code{font-family:ui-monospace,Consolas,monospace;font-size:14px;word-break:break-all;
-        background:#f0f3f8;border:1px dashed var(--az2);border-radius:8px;padding:12px}
-  .hide{display:none}
-  .err{color:#b3261e;font-size:13px;margin-top:6px}
-  @media print{.noprint{display:none!important}body{background:#fff}.card{border:1px solid #999}}
+  :root{
+    --azul:#1f4e79; --azul2:#2e75b6; --gris:#f4f6f9; --borde:#d8dee6;
+    --verde:#2e7d32; --rojo:#c62828; --texto:#1f2430;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--gris);font-family:"Segoe UI",Arial,Helvetica,sans-serif;color:var(--texto);line-height:1.5}
+  .wrap{max-width:820px;margin:0 auto;padding:18px}
+  .card{background:#fff;border:1px solid var(--borde);border-radius:12px;padding:26px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+  header.top{background:var(--azul);color:#fff;padding:26px 18px;text-align:center}
+  header.top h1{margin:0;font-size:26px}
+  header.top p{margin:6px 0 0;opacity:.9;font-size:15px}
+  h2{color:var(--azul);margin-top:0;font-size:21px}
+  h3{color:var(--azul);font-size:17px;margin:18px 0 8px}
+  label.campo{display:block;font-weight:600;margin:14px 0 5px}
+  input[type=text],input[type=email]{width:100%;padding:11px 12px;border:1px solid var(--borde);border-radius:8px;font-size:16px;background:#fff}
+  input:focus{outline:2px solid var(--azul2);border-color:var(--azul2)}
+  .ayuda{font-size:13px;color:#5a6472;margin-top:3px}
+  .btn{display:inline-block;background:var(--azul2);color:#fff;border:0;border-radius:8px;padding:13px 26px;font-size:16px;font-weight:600;cursor:pointer}
+  .btn:hover{background:var(--azul)}
+  .btn:disabled{background:#9fb3c8;cursor:not-allowed}
+  .btn.sec{background:#fff;color:var(--azul);border:1px solid var(--azul)}
+  .btn.sec:hover{background:#eaf1f8}
+  .btn.fin{background:var(--verde)}
+  .btn.fin:hover{background:#1b5e20}
+  .nav{display:flex;justify-content:space-between;gap:10px;margin-top:22px}
+  .instr{background:#eaf1f8;border-left:5px solid var(--azul2);border-radius:8px;padding:14px 18px;margin:16px 0}
+  .instr ol{margin:8px 0 0 18px;padding:0}
+  .instr li{margin-bottom:7px}
+  .barra{height:12px;background:#e3e8ef;border-radius:20px;overflow:hidden;margin:6px 0 4px}
+  .barra > i{display:block;height:100%;background:var(--azul2);width:0;transition:width .25s}
+  .progtxt{font-size:14px;color:#5a6472;text-align:center;margin-bottom:12px}
+  table.grupo{width:100%;border-collapse:collapse;margin-top:10px}
+  table.grupo th{background:var(--azul);color:#fff;padding:12px 8px;font-size:15px}
+  table.grupo th:first-child{text-align:left}
+  table.grupo td{border-bottom:1px solid var(--borde);padding:14px 8px;font-size:17px}
+  table.grupo td.op{text-align:center;width:120px}
+  table.grupo tr:hover td{background:#f7fafd}
+  input[type=radio]{width:24px;height:24px;cursor:pointer;accent-color:var(--azul2)}
+  .avisoerr{display:none;background:#fdecea;border-left:5px solid var(--rojo);color:#8c1d18;padding:11px 15px;border-radius:8px;margin-top:14px;font-weight:600}
+  .leyenda{display:flex;gap:18px;flex-wrap:wrap;font-size:14px;color:#5a6472;margin-top:8px}
+  .res{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0}
+  .res .b{border:2px solid var(--azul2);border-radius:12px;text-align:center;padding:16px 8px;background:#f7fafd}
+  .res .b .l{font-size:40px;font-weight:700;color:var(--azul)}
+  .res .b .n{font-size:13px;color:#5a6472;min-height:32px}
+  table.pts{width:100%;border-collapse:collapse;margin-top:10px;font-size:15px}
+  table.pts th,table.pts td{border:1px solid var(--borde);padding:10px;text-align:center}
+  table.pts th{background:#eaf1f8;color:var(--azul)}
+  table.pts td:first-child,table.pts th:first-child{text-align:left}
+  .ok{background:#e8f5e9;border-left:5px solid var(--verde);padding:14px 18px;border-radius:8px;margin:16px 0}
+  .bloqueado{background:#fff8e1;border-left:5px solid #f9a825;padding:12px 16px;border-radius:8px;margin:14px 0;font-size:14px}
+  .oculto{display:none}
+  @media(max-width:620px){
+    .res{grid-template-columns:repeat(2,1fr)}
+    table.grupo td{font-size:16px;padding:12px 4px}
+    table.grupo td.op{width:84px}
+    .card{padding:18px}
+  }
+  @media print{.nav,.btn{display:none}}
 </style>
 </head>
 <body>
+
+<header class="top">
+  <h1>Test DISC: Conoce tu Perfil</h1>
+  <p>Cuestionario de autoevaluación &middot; 24 grupos de palabras</p>
+</header>
+
 <div class="wrap">
 
-<!-- ======================= PANTALLA 1: CONSENTIMIENTO ======================= -->
-<section id="s-intro">
-  <div class="card">
-    <h1 id="ttl">Cuestionario de estilos de comportamiento (DISC)</h1>
-    <p class="muted">Duración aproximada: 8 a 12 minutos. Se responde desde el teléfono.</p>
-    <h2>Cómo responder</h2>
-    <p>En cada grupo de cuatro descripciones elija <b>una que lo describe MÁS</b> y
-       <b>una que lo describe MENOS</b>. No puede ser la misma. No hay respuestas correctas
-       ni incorrectas.</p>
-    <h2>Tratamiento de sus datos</h2>
-    <p class="muted">Este cuestionario describe preferencias de comportamiento auto reportadas.
-       No mide aptitud, inteligencia ni desempeño. Sus respuestas se procesan en este dispositivo
-       y el resultado se le muestra a usted al finalizar. Al continuar, usted confirma que
-       participa de forma voluntaria e informada.</p>
-    <div class="warn" style="margin-top:12px">
-      Si no desea participar, cierre esta página. No se registrará ninguna respuesta.
-    </div>
-    <label for="nom">Nombre completo</label>
-    <input id="nom" type="text" autocomplete="name" placeholder="Nombre y apellidos">
-    <label for="mail">Correo institucional</label>
-    <input id="mail" type="email" autocomplete="email" placeholder="nombre@empresa.com">
-    <label for="area">Área o puesto (opcional)</label>
-    <input id="area" type="text" placeholder="Área / puesto">
-    <div class="err hide" id="e-intro">Complete su nombre y un correo válido para continuar.</div>
-    <button class="btn" style="margin-top:14px" onclick="empezar()">Acepto y comienzo</button>
+<!-- ===================== PANTALLA 1: DATOS + INSTRUCCIONES ===================== -->
+<section id="p1" class="card">
+  <h2>Bienvenido(a)</h2>
+  <p>Antes de comenzar, complete sus datos. Toda la información es confidencial y se utiliza únicamente con fines de desarrollo del personal.</p>
+
+  <label class="campo" for="nombre">1. Nombre completo <span style="color:var(--rojo)">*</span></label>
+  <input type="text" id="nombre" placeholder="Ej.: María Fernanda López García" autocomplete="name">
+
+  <label class="campo" for="correo">2. Correo electrónico <span style="color:var(--rojo)">*</span></label>
+  <input type="email" id="correo" placeholder="Ej.: maria.lopez@empresa.com" autocomplete="email">
+  <div class="ayuda">Debe incluir el signo @ (ejemplo: nombre@empresa.com).</div>
+
+  <label class="campo" for="puesto">3. Profesión o puesto de trabajo <span style="color:var(--rojo)">*</span></label>
+  <input type="text" id="puesto" placeholder="Ej.: Analista de Compras / Contadora" autocomplete="organization-title">
+
+  <div class="instr">
+    <strong>📋 Instrucciones de llenado (léalas con calma)</strong>
+    <ol>
+      <li>Verá <strong>24 pantallas</strong>, una por cada grupo. Cada grupo tiene <strong>4 palabras</strong>.</li>
+      <li>En cada grupo debe marcar <strong>dos casillas solamente</strong>:
+        <br>• <strong>MÁS</strong> → la palabra que <u>MÁS</u> lo describe a usted.
+        <br>• <strong>MENOS</strong> → la palabra que <u>MENOS</u> lo describe a usted.</li>
+      <li>Las otras dos palabras se dejan <strong>en blanco</strong>.</li>
+      <li>Una misma palabra <strong>no</strong> puede ser MÁS y MENOS al mismo tiempo. Si la marca en una columna, se liberará automáticamente de la otra.</li>
+      <li>No hay respuestas buenas ni malas. Responda de forma espontánea, pensando en cómo es usted <strong>normalmente</strong>.</li>
+      <li>Puede usar <em>Anterior</em> para corregir mientras no haya enviado el formulario. Tiempo estimado: <strong>10 a 15 minutos</strong>.</li>
+      <li>Al terminar presione <strong>Finalizar y enviar</strong>. <u>Después de enviar, las respuestas ya no se pueden modificar.</u></li>
+      <li>Al final podrá ver sus puntajes y descargarlos como <strong>imagen (PNG)</strong> para enviarlos por correo o WhatsApp.</li>
+    </ol>
+  </div>
+
+  <div id="err1" class="avisoerr"></div>
+  <div class="nav"><span></span><button class="btn" id="btnIniciar">Comenzar el test &raquo;</button></div>
+</section>
+
+<!-- ===================== PANTALLA 2: GRUPOS ===================== -->
+<section id="p2" class="card oculto">
+  <div class="barra"><i id="barra"></i></div>
+  <div class="progtxt" id="progtxt">Grupo 1 de 24</div>
+
+  <h2 id="tituloGrupo">Grupo 1</h2>
+  <p style="margin-top:-6px">Marque <strong>una palabra en MÁS</strong> (la que más lo describe) y <strong>una palabra en MENOS</strong> (la que menos lo describe).</p>
+
+  <table class="grupo">
+    <thead><tr><th>Palabra</th><th style="width:120px">MÁS<br><span style="font-weight:400;font-size:12px">me describe</span></th><th style="width:120px">MENOS<br><span style="font-weight:400;font-size:12px">me describe</span></th></tr></thead>
+    <tbody id="filas"></tbody>
+  </table>
+
+  <div id="err2" class="avisoerr"></div>
+
+  <div class="nav">
+    <button class="btn sec" id="btnAnt">&laquo; Anterior</button>
+    <button class="btn" id="btnSig">Siguiente &raquo;</button>
   </div>
 </section>
 
-<!-- ======================= PANTALLA 2: CUESTIONARIO ======================= -->
-<section id="s-quiz" class="hide">
-  <div class="card">
-    <div class="muted" id="prog-txt">Grupo 1 de 24</div>
-    <div class="bar"><i id="prog"></i></div>
-    <div class="mode">
-      <button id="bm" class="on" onclick="setModo('mas')">Marcar el que MÁS me describe</button>
-      <button id="bn" onclick="setModo('menos')">Marcar el que MENOS me describe</button>
-    </div>
-    <div id="opts"></div>
-    <div class="err hide" id="e-quiz">Debe elegir una opción MÁS y una opción MENOS, y deben ser distintas.</div>
-    <div class="nav">
-      <button class="btn2" id="b-prev" onclick="ir(-1)">Anterior</button>
-      <button class="btn" id="b-next" onclick="ir(1)">Siguiente</button>
-    </div>
+<!-- ===================== PANTALLA 3: CONFIRMAR ENVÍO ===================== -->
+<section id="p3" class="card oculto">
+  <h2>Confirmar envío</h2>
+  <p>Ha respondido los <strong>24 grupos</strong> de palabras.</p>
+  <div class="bloqueado">⚠️ <strong>Importante:</strong> al presionar <em>Enviar definitivamente</em> sus respuestas quedarán registradas y <strong>no podrán modificarse</strong>. Si desea revisar algo, use el botón <em>Volver a revisar</em>.</div>
+  <div class="nav">
+    <button class="btn sec" id="btnVolver">&laquo; Volver a revisar</button>
+    <button class="btn fin" id="btnEnviar">Enviar definitivamente ✓</button>
   </div>
 </section>
 
-<!-- ======================= PANTALLA 3: RESULTADOS ======================= -->
-<section id="s-res" class="hide">
-  <div class="card">
-    <h1>Resultados</h1>
-    <div class="muted" id="r-meta"></div>
-    <h2>Puntajes numéricos</h2>
-    <table>
-      <thead><tr><th>Dimensión</th><th>Gráfico I<br>Máscara pública</th>
-      <th>Gráfico II<br>Yo privado</th><th>Gráfico III<br>Auto percibido</th></tr></thead>
-      <tbody id="r-tabla"></tbody>
-      <tfoot><tr><td class="lab">Total</td><td id="t1"></td><td id="t2"></td><td id="t3">0</td></tr></tfoot>
-    </table>
-    <p class="muted" style="margin-top:8px">Gráfico I = veces que eligió esa dimensión como MÁS.
-      Gráfico II = veces que la eligió como MENOS. Gráfico III = I − II (puede ser negativo;
-      siempre suma 0).</p>
+<!-- ===================== PANTALLA 4: RESULTADOS ===================== -->
+<section id="p4" class="card oculto">
+  <h2>Resultado del Test DISC</h2>
+  <div class="ok" id="okMsg">✅ <strong>Formulario enviado correctamente.</strong> Sus respuestas quedaron registradas y ya no pueden modificarse.</div>
 
-    <h2>Gráfico III – Auto percibido</h2>
-    <div id="r-barras"></div>
+  <p id="idDatos" style="font-size:15px"></p>
 
-    <h2>Perfil</h2>
-    <p>Dimensión dominante: <b id="r-perfil"></b> &nbsp;·&nbsp; Intensidad: <b id="r-int"></b></p>
-    <div class="warn">Este resultado describe preferencias de comportamiento auto reportadas en
-      el momento de la aplicación. No es una medida de aptitud, desempeño ni idoneidad para un
-      puesto. Su interpretación debe realizarla un profesional de Recursos Humanos.</div>
+  <h3>Puntajes por factor</h3>
+  <div class="res">
+    <div class="b"><div class="l">D</div><div class="n">Dominancia</div><div style="font-size:15px;margin-top:6px" id="rD"></div></div>
+    <div class="b"><div class="l">I</div><div class="n">Influencia</div><div style="font-size:15px;margin-top:6px" id="rI"></div></div>
+    <div class="b"><div class="l">S</div><div class="n">Estabilidad</div><div style="font-size:15px;margin-top:6px" id="rS"></div></div>
+    <div class="b"><div class="l">C</div><div class="n">Cumplimiento</div><div style="font-size:15px;margin-top:6px" id="rC"></div></div>
   </div>
 
-  <div class="card noprint">
-    <h2>Registro de su respuesta</h2>
-    <p class="muted">Para que Recursos Humanos conserve su resultado, copie el siguiente código
-      y péguelo en el formulario de registro.</p>
-    <div class="code" id="r-code"></div>
-    <button class="btn" style="margin-top:10px" onclick="copiar()">Copiar código</button>
-    <button class="btn2" id="b-forms" onclick="abrirForms()">Abrir formulario de registro</button>
-    <button class="btn2" onclick="window.print()">Guardar o imprimir resultados</button>
-    <div class="muted" id="r-copia" style="margin-top:8px"></div>
+  <table class="pts">
+    <thead><tr><th>Factor</th><th>MÁS<br>(Gráfica I)</th><th>MENOS<br>(Gráfica II)</th><th>MÁS − MENOS<br>(Gráfica III)</th></tr></thead>
+    <tbody id="tblPts"></tbody>
+  </table>
+  <p class="ayuda">Este reporte muestra únicamente los puntajes obtenidos. La interpretación del perfil la realiza el área de Recursos Humanos.</p>
+
+  <h3>Guarde su resultado</h3>
+  <p id="estadoGuardado" style="font-size:15px"></p>
+  <div class="nav" style="flex-wrap:wrap;gap:10px">
+    <span style="flex:1"></span>
+    <button class="btn fin" id="btnImagen">🖼 Descargar mi resultado como imagen (PNG)</button>
+  </div>
+  <p class="ayuda" id="pieImagen">La imagen es ideal para guardarla en el celular o compartirla por mensaje.</p>
+  <div id="vistaPrevia" class="oculto">
+    <h3>Vista previa de la imagen</h3>
+    <canvas id="lienzo" style="width:100%;max-width:700px;border:1px solid var(--borde);border-radius:10px"></canvas>
   </div>
 </section>
 
-<p class="muted noprint" style="text-align:center">Los textos mostrados son de ejemplo.
-  Sustitúyalos por el instrumento autorizado de su organización.</p>
+<!-- ===================== PANEL RRHH ===================== -->
+<section id="p5" class="card oculto">
+  <h2>Panel de Recursos Humanos</h2>
+  <p>Aquí se consolidan los tests contestados <strong>en este navegador</strong>. Descargue el Excel con todos los registros juntos.</p>
+  <div class="bloqueado">💡 Si el test se aplica en varias computadoras, cada persona debe enviarle su archivo Excel individual; este panel solo acumula los de este equipo.</div>
+  <p id="panelResumen" style="font-size:16px"></p>
+  <div style="overflow-x:auto"><table class="pts" id="tblPanel"></table></div>
+  <div class="nav" style="flex-wrap:wrap">
+    <button class="btn sec" id="btnSalirPanel">&laquo; Salir del panel</button>
+    <span style="flex:1"></span>
+    <button class="btn sec" id="btnBorrar" style="color:var(--rojo);border-color:var(--rojo)">🗑 Borrar registros</button>
+    <button class="btn fin" id="btnExcelTodos">⬇ Descargar Excel consolidado</button>
+  </div>
+</section>
+
+<p style="text-align:center;font-size:12px;color:#8a94a2;margin:22px 0">
+  Test DISC: Conoce tu Perfil &middot; Uso interno de Recursos Humanos &middot; Información confidencial<br>
+  <a href="#rrhh" id="lnkPanel" style="color:#8a94a2;font-size:11px">Acceso Recursos Humanos</a>
+</p>
 </div>
 
 <script>
-/* =======================================================================
-   CONFIGURACIÓN — reemplace los textos por su instrumento autorizado.
-   Cada grupo debe tener 4 opciones: t = texto, d = dimensión (D, I, S o C).
-   Cada grupo debe contener exactamente una D, una I, una S y una C.
-   ENLACE_FORMS: URL de un Microsoft Form de una sola pregunta donde el
-   participante pega el código. Déjelo vacío para ocultar el botón.
-   ======================================================================= */
-const ENLACE_FORMS = "";
-const CFG = {
-  "titulo": "Cuestionario de estilos de comportamiento (DISC)",
-  "grupos": [
-    [
-      {
-        "t": "Decidido",
-        "d": "D"
-      },
-      {
-        "t": "Entusiasta",
-        "d": "I"
-      },
-      {
-        "t": "Paciente",
-        "d": "S"
-      },
-      {
-        "t": "Analítico",
-        "d": "C"
-      }
-    ],
-    [
-      {
-        "t": "Sociable",
-        "d": "I"
-      },
-      {
-        "t": "Constante",
-        "d": "S"
-      },
-      {
-        "t": "Preciso",
-        "d": "C"
-      },
-      {
-        "t": "Audaz",
-        "d": "D"
-      }
-    ],
-    [
-      {
-        "t": "Sereno",
-        "d": "S"
-      },
-      {
-        "t": "Ordenado",
-        "d": "C"
-      },
-      {
-        "t": "Directo",
-        "d": "D"
-      },
-      {
-        "t": "Persuasivo",
-        "d": "I"
-      }
-    ],
-    [
-      {
-        "t": "Cauteloso",
-        "d": "C"
-      },
-      {
-        "t": "Competitivo",
-        "d": "D"
-      },
-      {
-        "t": "Optimista",
-        "d": "I"
-      },
-      {
-        "t": "Leal",
-        "d": "S"
-      }
-    ],
-    [
-      {
-        "t": "Exigente",
-        "d": "D"
-      },
-      {
-        "t": "Expresivo",
-        "d": "I"
-      },
-      {
-        "t": "Colaborador",
-        "d": "S"
-      },
-      {
-        "t": "Metódico",
-        "d": "C"
-      }
-    ],
-    [
-      {
-        "t": "Animado",
-        "d": "I"
-      },
-      {
-        "t": "Estable",
-        "d": "S"
-      },
-      {
-        "t": "Detallista",
-        "d": "C"
-      },
-      {
-        "t": "Firme",
-        "d": "D"
-      }
-    ],
-    [
-      {
-        "t": "Amable",
-        "d": "S"
-      },
-      {
-        "t": "Sistemático",
-        "d": "C"
-      },
-      {
-        "t": "Resolutivo",
-        "d": "D"
-      },
-      {
-        "t": "Comunicativo",
-        "d": "I"
-      }
-    ],
-    [
-      {
-        "t": "Reservado",
-        "d": "C"
-      },
-      {
-        "t": "Enérgico",
-        "d": "D"
-      },
-      {
-        "t": "Espontáneo",
-        "d": "I"
-      },
-      {
-        "t": "Comprensivo",
-        "d": "S"
-      }
-    ],
-    [
-      {
-        "t": "Retador",
-        "d": "D"
-      },
-      {
-        "t": "Convincente",
-        "d": "I"
-      },
-      {
-        "t": "Tranquilo",
-        "d": "S"
-      },
-      {
-        "t": "Riguroso",
-        "d": "C"
-      }
-    ],
-    [
-      {
-        "t": "Alegre",
-        "d": "I"
-      },
-      {
-        "t": "Apacible",
-        "d": "S"
-      },
-      {
-        "t": "Formal",
-        "d": "C"
-      },
-      {
-        "t": "Independiente",
-        "d": "D"
-      }
-    ],
-    [
-      {
-        "t": "Servicial",
-        "d": "S"
-      },
-      {
-        "t": "Objetivo",
-        "d": "C"
-      },
-      {
-        "t": "Asertivo",
-        "d": "D"
-      },
-      {
-        "t": "Carismático",
-        "d": "I"
-      }
-    ],
-    [
-      {
-        "t": "Perfeccionista",
-        "d": "C"
-      },
-      {
-        "t": "Dominante",
-        "d": "D"
-      },
-      {
-        "t": "Abierto",
-        "d": "I"
-      },
-      {
-        "t": "Moderado",
-        "d": "S"
-      }
-    ],
-    [
-      {
-        "t": "Osado",
-        "d": "D"
-      },
-      {
-        "t": "Extrovertido",
-        "d": "I"
-      },
-      {
-        "t": "Conciliador",
-        "d": "S"
-      },
-      {
-        "t": "Prudente",
-        "d": "C"
-      }
-    ],
-    [
-      {
-        "t": "Confiado",
-        "d": "I"
-      },
-      {
-        "t": "Predecible",
-        "d": "S"
-      },
-      {
-        "t": "Crítico",
-        "d": "C"
-      },
-      {
-        "t": "Impaciente",
-        "d": "D"
-      }
-    ],
-    [
-      {
-        "t": "Orientado al equipo",
-        "d": "S"
-      },
-      {
-        "t": "Orientado a la norma",
-        "d": "C"
-      },
-      {
-        "t": "Orientado a resultados",
-        "d": "D"
-      },
-      {
-        "t": "Orientado a personas",
-        "d": "I"
-      }
-    ],
-    [
-      {
-        "t": "Exacto",
-        "d": "C"
-      },
-      {
-        "t": "Resuelto",
-        "d": "D"
-      },
-      {
-        "t": "Inspirador",
-        "d": "I"
-      },
-      {
-        "t": "Discreto",
-        "d": "S"
-      }
-    ],
-    [
-      {
-        "t": "Emprendedor",
-        "d": "D"
-      },
-      {
-        "t": "Efusivo",
-        "d": "I"
-      },
-      {
-        "t": "Tolerante",
-        "d": "S"
-      },
-      {
-        "t": "Disciplinado",
-        "d": "C"
-      }
-    ],
-    [
-      {
-        "t": "Amistoso",
-        "d": "I"
-      },
-      {
-        "t": "Sosegado",
-        "d": "S"
-      },
-      {
-        "t": "Estructurado",
-        "d": "C"
-      },
-      {
-        "t": "Contundente",
-        "d": "D"
-      }
-    ],
-    [
-      {
-        "t": "Pausado",
-        "d": "S"
-      },
-      {
-        "t": "Minucioso",
-        "d": "C"
-      },
-      {
-        "t": "Pionero",
-        "d": "D"
-      },
-      {
-        "t": "Divertido",
-        "d": "I"
-      }
-    ],
-    [
-      {
-        "t": "Reflexivo",
-        "d": "C"
-      },
-      {
-        "t": "Combativo",
-        "d": "D"
-      },
-      {
-        "t": "Elocuente",
-        "d": "I"
-      },
-      {
-        "t": "Conforme",
-        "d": "S"
-      }
-    ],
-    [
-      {
-        "t": "Decisivo",
-        "d": "D"
-      },
-      {
-        "t": "Impulsivo",
-        "d": "I"
-      },
-      {
-        "t": "Receptivo",
-        "d": "S"
-      },
-      {
-        "t": "Meticuloso",
-        "d": "C"
-      }
-    ],
-    [
-      {
-        "t": "Gregario",
-        "d": "I"
-      },
-      {
-        "t": "Modesto",
-        "d": "S"
-      },
-      {
-        "t": "Lógico",
-        "d": "C"
-      },
-      {
-        "t": "Ambicioso",
-        "d": "D"
-      }
-    ],
-    [
-      {
-        "t": "Fiel",
-        "d": "S"
-      },
-      {
-        "t": "Perseverante",
-        "d": "C"
-      },
-      {
-        "t": "Inconforme",
-        "d": "D"
-      },
-      {
-        "t": "Ocurrente",
-        "d": "I"
-      }
-    ],
-    [
-      {
-        "t": "Sistemico",
-        "d": "C"
-      },
-      {
-        "t": "Arriesgado",
-        "d": "D"
-      },
-      {
-        "t": "Afectuoso",
-        "d": "I"
-      },
-      {
-        "t": "Armonioso",
-        "d": "S"
-      }
-    ]
+/* ============ DATOS DEL TEST (cargados desde definicion_disc.xlsx) ============ */
+const DATA = [
+ {
+  "grupo": 1,
+  "palabras": [
+   {
+    "p": "PERSUASIVO",
+    "mas": "I",
+    "menos": null
+   },
+   {
+    "p": "GENTIL",
+    "mas": "S",
+    "menos": "S"
+   },
+   {
+    "p": "HUMILDE",
+    "mas": "C",
+    "menos": "C"
+   },
+   {
+    "p": "ORIGINAL",
+    "mas": null,
+    "menos": "D"
+   }
   ]
+ },
+ {
+  "grupo": 2,
+  "palabras": [
+   {
+    "p": "FZA DE VOLUNTAD",
+    "mas": null,
+    "menos": "D"
+   },
+   {
+    "p": "MENTE ABIERTA",
+    "mas": "C",
+    "menos": null
+   },
+   {
+    "p": "COMPLACIENTE",
+    "mas": "S",
+    "menos": "S"
+   },
+   {
+    "p": "ANIMOSO",
+    "mas": "I",
+    "menos": "I"
+   }
+  ]
+ },
+ {
+  "grupo": 3,
+  "palabras": [
+   {
+    "p": "OBEDIENTE",
+    "mas": "S",
+    "menos": null
+   },
+   {
+    "p": "QUISQUILLOSO",
+    "mas": null,
+    "menos": "C"
+   },
+   {
+    "p": "INCONQUISTABLE",
+    "mas": "D",
+    "menos": "D"
+   },
+   {
+    "p": "JUGUETON",
+    "mas": "I",
+    "menos": "I"
+   }
+  ]
+ },
+ {
+  "grupo": 4,
+  "palabras": [
+   {
+    "p": "AVENTURERO",
+    "mas": "D",
+    "menos": "D"
+   },
+   {
+    "p": "RECEPTIVO",
+    "mas": "C",
+    "menos": null
+   },
+   {
+    "p": "CORDIAL",
+    "mas": "I",
+    "menos": "I"
+   },
+   {
+    "p": "MODERADO",
+    "mas": "S",
+    "menos": "S"
+   }
+  ]
+ },
+ {
+  "grupo": 5,
+  "palabras": [
+   {
+    "p": "AGRESIVO",
+    "mas": "D",
+    "menos": null
+   },
+   {
+    "p": "ALMA DE LA FIESTA",
+    "mas": "I",
+    "menos": "I"
+   },
+   {
+    "p": "COMODINO",
+    "mas": "S",
+    "menos": "S"
+   },
+   {
+    "p": "TEMEROSO",
+    "mas": null,
+    "menos": "C"
+   }
+  ]
+ },
+ {
+  "grupo": 6,
+  "palabras": [
+   {
+    "p": "CONFIADO",
+    "mas": "I",
+    "menos": null
+   },
+   {
+    "p": "SIMPATIZADOR",
+    "mas": null,
+    "menos": "S"
+   },
+   {
+    "p": "TOLERANTE",
+    "mas": null,
+    "menos": "C"
+   },
+   {
+    "p": "AFIRMATIVO",
+    "mas": "D",
+    "menos": "D"
+   }
+  ]
+ },
+ {
+  "grupo": 7,
+  "palabras": [
+   {
+    "p": "RESPETUOSO",
+    "mas": "C",
+    "menos": null
+   },
+   {
+    "p": "EMPRENDEDOR",
+    "mas": "D",
+    "menos": "D"
+   },
+   {
+    "p": "OPTIMISTA",
+    "mas": "I",
+    "menos": "I"
+   },
+   {
+    "p": "SERVICIAL",
+    "mas": "S",
+    "menos": "S"
+   }
+  ]
+ },
+ {
+  "grupo": 8,
+  "palabras": [
+   {
+    "p": "INDULGENTE",
+    "mas": "S",
+    "menos": "S"
+   },
+   {
+    "p": "ESTETA",
+    "mas": null,
+    "menos": "C"
+   },
+   {
+    "p": "VIGOROSO",
+    "mas": "D",
+    "menos": "D"
+   },
+   {
+    "p": "SOCIABLE",
+    "mas": "I",
+    "menos": "I"
+   }
+  ]
+ },
+ {
+  "grupo": 9,
+  "palabras": [
+   {
+    "p": "AGRADABLE",
+    "mas": null,
+    "menos": "S"
+   },
+   {
+    "p": "TEMEROSO DE DIOS",
+    "mas": "C",
+    "menos": "C"
+   },
+   {
+    "p": "TENAZ",
+    "mas": "D",
+    "menos": "D"
+   },
+   {
+    "p": "ATRACTIVO",
+    "mas": "I",
+    "menos": "I"
+   }
+  ]
+ },
+ {
+  "grupo": 10,
+  "palabras": [
+   {
+    "p": "ECUANIME",
+    "mas": "S",
+    "menos": "S"
+   },
+   {
+    "p": "PRECISO",
+    "mas": "C",
+    "menos": "C"
+   },
+   {
+    "p": "NERVIOSO",
+    "mas": null,
+    "menos": "D"
+   },
+   {
+    "p": "JOVIAL",
+    "mas": null,
+    "menos": "I"
+   }
+  ]
+ },
+ {
+  "grupo": 11,
+  "palabras": [
+   {
+    "p": "VALIENTE",
+    "mas": "D",
+    "menos": null
+   },
+   {
+    "p": "INSPIRADOR",
+    "mas": "I",
+    "menos": null
+   },
+   {
+    "p": "SUMISO",
+    "mas": null,
+    "menos": "S"
+   },
+   {
+    "p": "TÍMIDO",
+    "mas": null,
+    "menos": "C"
+   }
+  ]
+ },
+ {
+  "grupo": 12,
+  "palabras": [
+   {
+    "p": "PARLANCHIN",
+    "mas": "I",
+    "menos": "I"
+   },
+   {
+    "p": "CONTROLADO",
+    "mas": "S",
+    "menos": "S"
+   },
+   {
+    "p": "CONVENCIONAL",
+    "mas": null,
+    "menos": "C"
+   },
+   {
+    "p": "DECISIVO",
+    "mas": "D",
+    "menos": "D"
+   }
+  ]
+ },
+ {
+  "grupo": 13,
+  "palabras": [
+   {
+    "p": "CAUTELOSO",
+    "mas": "C",
+    "menos": "C"
+   },
+   {
+    "p": "DETERMINADO",
+    "mas": "D",
+    "menos": null
+   },
+   {
+    "p": "CONVINCENTE",
+    "mas": "I",
+    "menos": "I"
+   },
+   {
+    "p": "BONACHON",
+    "mas": "S",
+    "menos": null
+   }
+  ]
+ },
+ {
+  "grupo": 14,
+  "palabras": [
+   {
+    "p": "DISCIPLINADO",
+    "mas": "C",
+    "menos": null
+   },
+   {
+    "p": "GENEROSO",
+    "mas": "S",
+    "menos": "S"
+   },
+   {
+    "p": "ANIMOSO",
+    "mas": null,
+    "menos": "I"
+   },
+   {
+    "p": "PERSISTENTE",
+    "mas": "D",
+    "menos": "D"
+   }
+  ]
+ },
+ {
+  "grupo": 15,
+  "palabras": [
+   {
+    "p": "ADAPTABLE",
+    "mas": "C",
+    "menos": null
+   },
+   {
+    "p": "DISPUTADOR",
+    "mas": "D",
+    "menos": "D"
+   },
+   {
+    "p": "INDIFERENTE",
+    "mas": null,
+    "menos": "S"
+   },
+   {
+    "p": "SANGRE LIVIANA",
+    "mas": "I",
+    "menos": "I"
+   }
+  ]
+ },
+ {
+  "grupo": 16,
+  "palabras": [
+   {
+    "p": "COHIBIDO",
+    "mas": null,
+    "menos": "S"
+   },
+   {
+    "p": "FRANCO",
+    "mas": "D",
+    "menos": "D"
+   },
+   {
+    "p": "EXACTO",
+    "mas": "C",
+    "menos": null
+   },
+   {
+    "p": "BUEN COMPAÑERO",
+    "mas": "I",
+    "menos": "I"
+   }
+  ]
+ },
+ {
+  "grupo": 17,
+  "palabras": [
+   {
+    "p": "DOCIL",
+    "mas": null,
+    "menos": "C"
+   },
+   {
+    "p": "ATREVIDO",
+    "mas": "D",
+    "menos": "D"
+   },
+   {
+    "p": "LEAL",
+    "mas": "S",
+    "menos": null
+   },
+   {
+    "p": "ENCANTADOR",
+    "mas": "I",
+    "menos": "I"
+   }
+  ]
+ },
+ {
+  "grupo": 18,
+  "palabras": [
+   {
+    "p": "COMPETITIVO",
+    "mas": "D",
+    "menos": "D"
+   },
+   {
+    "p": "ALEGRE",
+    "mas": null,
+    "menos": "I"
+   },
+   {
+    "p": "CONSIDERADO",
+    "mas": "S",
+    "menos": "S"
+   },
+   {
+    "p": "ARMONIOSO",
+    "mas": null,
+    "menos": "C"
+   }
+  ]
+ },
+ {
+  "grupo": 19,
+  "palabras": [
+   {
+    "p": "AMIGUERO",
+    "mas": "I",
+    "menos": "I"
+   },
+   {
+    "p": "PACIENTE",
+    "mas": "S",
+    "menos": "S"
+   },
+   {
+    "p": "CONFIANZA EN SI MISMO",
+    "mas": "D",
+    "menos": "D"
+   },
+   {
+    "p": "MESURADO PARA HABLAR",
+    "mas": "C",
+    "menos": null
+   }
+  ]
+ },
+ {
+  "grupo": 20,
+  "palabras": [
+   {
+    "p": "DIPLOMÁTICO",
+    "mas": "C",
+    "menos": null
+   },
+   {
+    "p": "AUDAZ",
+    "mas": "D",
+    "menos": "D"
+   },
+   {
+    "p": "REFINADO",
+    "mas": null,
+    "menos": "I"
+   },
+   {
+    "p": "SATISFECHO",
+    "mas": "S",
+    "menos": "S"
+   }
+  ]
+ },
+ {
+  "grupo": 21,
+  "palabras": [
+   {
+    "p": "DISPUESTO",
+    "mas": "S",
+    "menos": null
+   },
+   {
+    "p": "DESEOSO",
+    "mas": null,
+    "menos": null
+   },
+   {
+    "p": "CONSECUENTE",
+    "mas": "C",
+    "menos": "C"
+   },
+   {
+    "p": "ENTUSIASTA",
+    "mas": null,
+    "menos": "D"
+   }
+  ]
+ },
+ {
+  "grupo": 22,
+  "palabras": [
+   {
+    "p": "ADMIRABLE",
+    "mas": "I",
+    "menos": null
+   },
+   {
+    "p": "BONDADOSO",
+    "mas": "S",
+    "menos": null
+   },
+   {
+    "p": "RESIGNADO",
+    "mas": null,
+    "menos": "C"
+   },
+   {
+    "p": "CARACTER FIRME",
+    "mas": "D",
+    "menos": "D"
+   }
+  ]
+ },
+ {
+  "grupo": 23,
+  "palabras": [
+   {
+    "p": "CONFORME",
+    "mas": null,
+    "menos": "S"
+   },
+   {
+    "p": "CONFIABLE",
+    "mas": "S",
+    "menos": "I"
+   },
+   {
+    "p": "PAFICICO",
+    "mas": "C",
+    "menos": "C"
+   },
+   {
+    "p": "POSITIVO",
+    "mas": "D",
+    "menos": "D"
+   }
+  ]
+ },
+ {
+  "grupo": 24,
+  "palabras": [
+   {
+    "p": "INQUIETO",
+    "mas": "D",
+    "menos": "D"
+   },
+   {
+    "p": "POPULAR",
+    "mas": "I",
+    "menos": "I"
+   },
+   {
+    "p": "BUEN VECINO",
+    "mas": "S",
+    "menos": "S"
+   },
+   {
+    "p": "DEVOTO",
+    "mas": "C",
+    "menos": "C"
+   }
+  ]
+ }
+];
+const FACTORES = [["D","Dominancia"],["I","Influencia"],["S","Estabilidad"],["C","Cumplimiento"]];
+
+/* ============ ESTADO ============ */
+let idx = 0;                                   // grupo actual (0..23)
+const resp = DATA.map(()=>({mas:null,menos:null}));
+let enviado = false;
+let persona = {};
+
+const $ = id => document.getElementById(id);
+const ver = (id,on)=> $(id).classList.toggle("oculto", !on);
+function error(id,msg){ const e=$(id); if(msg){e.textContent="⚠ "+msg; e.style.display="block";} else e.style.display="none"; }
+
+/* ============ PANTALLA 1 ============ */
+$("btnIniciar").onclick = () => {
+  const n=$("nombre").value.trim(), c=$("correo").value.trim(), p=$("puesto").value.trim();
+  if(!n){ return error("err1","Por favor escriba su nombre completo."); }
+  if(!c || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(c)){ return error("err1","Por favor escriba un correo electrónico válido (ejemplo: nombre@empresa.com)."); }
+  if(!p){ return error("err1","Por favor indique su profesión o puesto de trabajo."); }
+  error("err1",null);
+  persona = {nombre:n, correo:c, puesto:p};
+  ver("p1",false); ver("p2",true); pintarGrupo(); window.scrollTo(0,0);
 };
-/* ===================== FIN DE LA CONFIGURACIÓN ========================= */
 
-const DIMS = ["D","I","S","C"];
-const COLOR = {D:"var(--D)", I:"var(--I)", S:"var(--S)", C:"var(--C)"};
-const NOMBRE = {D:"D – Dominancia", I:"I – Influencia", S:"S – Estabilidad", C:"C – Cumplimiento"};
-const MAPA = "0123456789ABCDEF";
-let idx = 0, modo = "mas";
-const R = CFG.grupos.map(()=>({mas:null, menos:null}));
-let perfil = {};
+/* ============ PANTALLA 2: GRUPOS ============ */
+function pintarGrupo(){
+  const g = DATA[idx], r = resp[idx];
+  $("tituloGrupo").textContent = "Grupo " + g.grupo + " de 24";
+  $("progtxt").textContent = "Avance: " + (idx+1) + " de 24 grupos";
+  $("barra").style.width = ((idx)/24*100) + "%";
+  $("filas").innerHTML = g.palabras.map((w,i)=>`
+    <tr>
+      <td><label for="m${i}">${w.p}</label></td>
+      <td class="op"><input type="radio" id="m${i}" name="mas"   value="${i}" ${r.mas===i?"checked":""}></td>
+      <td class="op"><input type="radio" id="n${i}" name="menos" value="${i}" ${r.menos===i?"checked":""}></td>
+    </tr>`).join("");
 
-document.getElementById("ttl").textContent = CFG.titulo;
-
-function $(id){ return document.getElementById(id); }
-
-function empezar(){
-  const n = $("nom").value.trim(), m = $("mail").value.trim();
-  const ok = n.length>2 && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m);
-  $("e-intro").classList.toggle("hide", ok);
-  if(!ok) return;
-  perfil = {nombre:n, correo:m, area:$("area").value.trim(), inicio:new Date().toISOString()};
-  $("s-intro").classList.add("hide");
-  $("s-quiz").classList.remove("hide");
-  pintar();
-}
-
-function setModo(m){
-  modo = m;
-  $("bm").classList.toggle("on", m==="mas");
-  $("bn").classList.toggle("on", m==="menos");
-}
-
-function pintar(){
-  const g = CFG.grupos[idx], r = R[idx];
-  $("prog-txt").textContent = "Grupo " + (idx+1) + " de " + CFG.grupos.length;
-  $("prog").style.width = ((idx)/CFG.grupos.length*100) + "%";
-  $("e-quiz").classList.add("hide");
-  $("b-prev").disabled = (idx===0);
-  $("b-next").textContent = (idx===CFG.grupos.length-1) ? "Ver mis resultados" : "Siguiente";
-  const cont = $("opts"); cont.innerHTML = "";
-  g.forEach(function(o,i){
-    const d = document.createElement("div");
-    d.className = "opt" + (r.mas===i ? " sel-mas" : "") + (r.menos===i ? " sel-men" : "");
-    d.innerHTML = '<span class="txt">'+o.t+'</span>' +
-      (r.mas===i ? '<span class="tag m">MÁS</span>' : '') +
-      (r.menos===i ? '<span class="tag n">MENOS</span>' : '');
-    d.onclick = function(){ elegir(i); };
-    cont.appendChild(d);
+  // reglas: uno por columna + exclusión mutua de la misma palabra
+  $("filas").querySelectorAll('input[name=mas]').forEach(el=>el.onchange=()=>{
+    const i=+el.value; r.mas=i;
+    if(r.menos===i){ r.menos=null; const o=$("n"+i); if(o) o.checked=false; }
+    error("err2",null);
   });
-  setModo(r.mas===null ? "mas" : (r.menos===null ? "menos" : modo));
+  $("filas").querySelectorAll('input[name=menos]').forEach(el=>el.onchange=()=>{
+    const i=+el.value; r.menos=i;
+    if(r.mas===i){ r.mas=null; const o=$("m"+i); if(o) o.checked=false; }
+    error("err2",null);
+  });
+
+  $("btnAnt").style.visibility = idx===0 ? "hidden" : "visible";
+  $("btnSig").textContent = idx===23 ? "Revisar y finalizar »" : "Siguiente »";
+  error("err2",null);
 }
 
-function elegir(i){
-  const r = R[idx];
-  if(modo==="mas"){
-    if(r.menos===i) r.menos = null;
-    r.mas = (r.mas===i) ? null : i;
-    if(r.mas!==null && r.menos===null) modo = "menos";
-  } else {
-    if(r.mas===i) r.mas = null;
-    r.menos = (r.menos===i) ? null : i;
-    if(r.menos!==null && r.mas===null) modo = "mas";
-  }
-  pintar();
-}
-
-function ir(paso){
-  if(paso>0){
-    const r = R[idx];
-    if(r.mas===null || r.menos===null || r.mas===r.menos){
-      $("e-quiz").classList.remove("hide"); return;
-    }
-    if(idx===CFG.grupos.length-1){ return finalizar(); }
-  }
-  idx = Math.max(0, Math.min(CFG.grupos.length-1, idx+paso));
+$("btnAnt").onclick = ()=>{ if(idx>0){ idx--; pintarGrupo(); window.scrollTo(0,0);} };
+$("btnSig").onclick = ()=>{
+  const r = resp[idx];
+  if(r.mas===null && r.menos===null) return error("err2","Debe marcar una palabra en MÁS y una palabra en MENOS antes de continuar.");
+  if(r.mas===null)   return error("err2","Falta marcar la palabra que MÁS lo describe.");
+  if(r.menos===null) return error("err2","Falta marcar la palabra que MENOS lo describe.");
+  if(r.mas===r.menos) return error("err2","No puede elegir la misma palabra como MÁS y MENOS.");
+  if(idx<23){ idx++; pintarGrupo(); }
+  else { $("barra").style.width="100%"; ver("p2",false); ver("p3",true); }
   window.scrollTo(0,0);
-  pintar();
-}
+};
 
+/* ============ PANTALLA 3: CONFIRMACIÓN ============ */
+$("btnVolver").onclick = ()=>{ if(enviado) return; ver("p3",false); ver("p2",true); pintarGrupo(); window.scrollTo(0,0); };
+
+$("btnEnviar").onclick = ()=>{
+  if(enviado) return;
+  if(!confirm("¿Confirma el envío? Después de enviar NO podrá modificar sus respuestas.")) return;
+  enviado = true;
+  $("btnEnviar").disabled = true; $("btnVolver").disabled = true;
+  const res = calcular();
+  mostrar(res);
+  ver("p3",false); ver("p4",true); window.scrollTo(0,0);
+  guardar(res);
+};
+
+/* ============ CÁLCULO DISC ============ */
 function calcular(){
-  const g1={D:0,I:0,S:0,C:0}, g2={D:0,I:0,S:0,C:0};
-  R.forEach(function(r,gi){
-    g1[CFG.grupos[gi][r.mas].d]++;
-    g2[CFG.grupos[gi][r.menos].d]++;
+  const mas={D:0,I:0,S:0,C:0}, menos={D:0,I:0,S:0,C:0}, detalle=[];
+  DATA.forEach((g,i)=>{
+    const r=resp[i];
+    const wM=g.palabras[r.mas], wN=g.palabras[r.menos];
+    if(wM && wM.mas)   mas[wM.mas]++;
+    if(wN && wN.menos) menos[wN.menos]++;
+    detalle.push({grupo:g.grupo, palMas:wM.p, facMas:wM.mas||"No aplica", palMenos:wN.p, facMenos:wN.menos||"No aplica"});
   });
-  const g3={}; DIMS.forEach(function(d){ g3[d]=g1[d]-g2[d]; });
-  return {g1:g1, g2:g2, g3:g3};
+  const dif={}; ["D","I","S","C"].forEach(k=>dif[k]=mas[k]-menos[k]);
+  return {mas,menos,dif,detalle};
 }
 
-function codigo(){
-  let s = "";
-  R.forEach(function(r){ s += MAPA[r.mas*4 + r.menos]; });
-  let chk = 0; for(let i=0;i<s.length;i++) chk = (chk*31 + s.charCodeAt(i)) % 1296;
-  return "DISC-" + s + "-" + chk.toString(36).toUpperCase().padStart(2,"0");
-}
-
-function finalizar(){
-  const c = calcular();
-  const n = CFG.grupos.length;
-  $("s-quiz").classList.add("hide");
-  $("s-res").classList.remove("hide");
-  window.scrollTo(0,0);
-  $("r-meta").textContent = perfil.nombre + " · " + perfil.correo +
-      (perfil.area ? " · " + perfil.area : "") + " · " + new Date().toLocaleString("es");
-
-  let html = "";
-  DIMS.forEach(function(d){
-    html += "<tr><td class='lab'>"+NOMBRE[d]+"</td><td>"+c.g1[d]+"</td><td>"+c.g2[d]+
-            "</td><td><b>"+(c.g3[d]>0?"+":"")+c.g3[d]+"</b></td></tr>";
+function mostrar(res){
+  $("idDatos").innerHTML = `<strong>${persona.nombre}</strong> &middot; ${persona.correo} &middot; ${persona.puesto}<br>
+    <span class="ayuda">Fecha de envío: ${new Date().toLocaleString("es-MX")}</span>`;
+  ["D","I","S","C"].forEach(k=>{
+    $("r"+k).innerHTML = `Más <strong>${res.mas[k]}</strong> &middot; Menos <strong>${res.menos[k]}</strong><br>Dif. <strong>${res.dif[k]>0?"+":""}${res.dif[k]}</strong>`;
   });
-  $("r-tabla").innerHTML = html;
-  $("t1").textContent = n; $("t2").textContent = n;
-
-  const max = Math.max.apply(null, DIMS.map(function(d){ return Math.abs(c.g3[d]); })) || 1;
-  $("r-barras").innerHTML = DIMS.map(function(d){
-    const w = Math.round(Math.abs(c.g3[d])/max*100);
-    return "<div style='margin-bottom:10px'><div class='muted'><b>"+NOMBRE[d]+"</b> &nbsp; "+
-      (c.g3[d]>0?"+":"")+c.g3[d]+"</div><div class='gb'><i style='width:"+w+
-      "%;background:"+COLOR[d]+"'></i></div></div>";
-  }).join("");
-
-  const mx = Math.max.apply(null, DIMS.map(function(d){ return c.g3[d]; }));
-  const tops = DIMS.filter(function(d){ return c.g3[d]===mx; });
-  $("r-perfil").textContent = tops.join(" / ") + (tops.length>1 ? "  (empate)" : "");
-  $("r-int").textContent = mx;
-  $("r-code").textContent = codigo();
-  if(!ENLACE_FORMS) $("b-forms").classList.add("hide");
+  $("tblPts").innerHTML = FACTORES.map(([k,n])=>
+    `<tr><td><strong>${k}</strong> — ${n}</td><td>${res.mas[k]}</td><td>${res.menos[k]}</td><td><strong>${res.dif[k]>0?"+":""}${res.dif[k]}</strong></td></tr>`
+  ).join("") + `<tr style="background:#f7fafd"><td><strong>Total</strong></td><td>${res.mas.D+res.mas.I+res.mas.S+res.mas.C}</td><td>${res.menos.D+res.menos.I+res.menos.S+res.menos.C}</td><td>—</td></tr>`;
 }
 
-function copiar(){
-  const t = $("r-code").textContent;
-  const fin = function(ok){ $("r-copia").textContent = ok
-      ? "Código copiado. Péguelo en el formulario de registro."
-      : "No se pudo copiar automáticamente. Seleccione el código y cópielo manualmente."; };
-  if(navigator.clipboard && window.isSecureContext){
-    navigator.clipboard.writeText(t).then(function(){fin(true);}, function(){fin(false);});
-  } else {
-    const ta=document.createElement("textarea"); ta.value=t; document.body.appendChild(ta);
-    ta.select(); let ok=false; try{ ok=document.execCommand("copy"); }catch(e){}
-    document.body.removeChild(ta); fin(ok);
+/* ============ GUARDADO ============ */
+const BODEGA = "disc_registros";
+let ULTIMO = null;
+
+function leerRegistros(){
+  try{ return JSON.parse(localStorage.getItem(BODEGA) || "[]"); }catch(e){ return []; }
+}
+function guardar(res){
+  ULTIMO = res;
+  const payload = {persona, mas:res.mas, menos:res.menos, dif:res.dif, detalle:res.detalle, fecha:new Date().toISOString()};
+  let n = 0;
+  try{
+    const lista = leerRegistros();
+    lista.push(payload);
+    localStorage.setItem(BODEGA, JSON.stringify(lista));
+    n = lista.length;
+  }catch(e){}
+  $("estadoGuardado").innerHTML = n
+    ? "✅ <strong>Su resultado quedó registrado</strong> (registro #"+n+"). Descargue la imagen de el resultado y envíelo por correo o Whatsapp, para coordinar la evaluación."
+    : "✅ <strong>Su resultado quedó registrado.</strong> Descargue la imagen de el resultado y envíelo por correo o Whatsapp, para coordinar la evaluación.";
+}
+
+/* ---- Descarga de archivos ---- */
+function bajar(blob, nombreArch){
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a"); a.href=url; a.download=nombreArch; document.body.appendChild(a); a.click();
+  setTimeout(()=>{document.body.removeChild(a); URL.revokeObjectURL(url);},1500);
+}
+
+/* ===== Mini-escritor XLSX (OOXML + ZIP sin compresión). No requiere librerías ===== */
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function col(n){let s="";n++;while(n>0){let m=(n-1)%26;s=String.fromCharCode(65+m)+s;n=(n-m-1)/26;}return s;}
+function hojaXML(filas){
+  let x='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><cols><col min="1" max="1" width="26"/><col min="2" max="5" width="24"/></cols><sheetData>';
+  filas.forEach((fila,i)=>{
+    x += '<row r="'+(i+1)+'">';
+    (fila||[]).forEach((v,j)=>{
+      if(v===null||v===undefined||v==="") return;
+      const ref = col(j)+(i+1);
+      if(typeof v === "number" && isFinite(v)) x += '<c r="'+ref+'"><v>'+v+'</v></c>';
+      else x += '<c r="'+ref+'" t="inlineStr"><is><t xml:space="preserve">'+esc(v)+'</t></is></c>';
+    });
+    x += '</row>';
+  });
+  return x + '</sheetData></worksheet>';
+}
+function construirXLSX(hojas){
+  const files = {};
+  files["[Content_Types].xml"] =
+    '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'+
+    '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'+
+    '<Default Extension="xml" ContentType="application/xml"/>'+
+    '<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>'+
+    hojas.map((h,i)=>'<Override PartName="/xl/worksheets/sheet'+(i+1)+'.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>').join("")+
+    '</Types>';
+  files["_rels/.rels"] =
+    '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+
+    '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>';
+  files["xl/workbook.xml"] =
+    '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>'+
+    hojas.map((h,i)=>'<sheet name="'+esc(h.nombre)+'" sheetId="'+(i+1)+'" r:id="rId'+(i+1)+'"/>').join("")+'</sheets></workbook>';
+  files["xl/_rels/workbook.xml.rels"] =
+    '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+
+    hojas.map((h,i)=>'<Relationship Id="rId'+(i+1)+'" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet'+(i+1)+'.xml"/>').join("")+'</Relationships>';
+  hojas.forEach((h,i)=>{ files["xl/worksheets/sheet"+(i+1)+".xml"] = hojaXML(h.filas); });
+  return zipStore(files);
+}
+const CRCT=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0;}return t;})();
+function crc32(buf){let c=0xFFFFFFFF;for(let i=0;i<buf.length;i++)c=CRCT[(c^buf[i])&0xFF]^(c>>>8);return (c^0xFFFFFFFF)>>>0;}
+function zipStore(files){
+  const enc=new TextEncoder(), parts=[], central=[]; let off=0;
+  const u16=v=>[v&255,(v>>8)&255], u32=v=>[v&255,(v>>8)&255,(v>>16)&255,(v>>>24)&255];
+  for(const name in files){
+    const nb=enc.encode(name), db=enc.encode(files[name]), crc=crc32(db);
+    const lh=new Uint8Array([...u32(0x04034b50),...u16(20),...u16(0x0800),...u16(0),...u16(0),...u16(0),
+      ...u32(crc),...u32(db.length),...u32(db.length),...u16(nb.length),...u16(0)]);
+    parts.push(lh,nb,db);
+    central.push(new Uint8Array([...u32(0x02014b50),...u16(20),...u16(20),...u16(0x0800),...u16(0),...u16(0),...u16(0),
+      ...u32(crc),...u32(db.length),...u32(db.length),...u16(nb.length),...u16(0),...u16(0),...u16(0),...u16(0),...u32(0),...u32(off)]),nb);
+    off += lh.length + nb.length + db.length;
   }
+  let cs=0; central.forEach(p=>cs+=p.length);
+  const eocd=new Uint8Array([...u32(0x06054b50),...u16(0),...u16(0),...u16(central.length/2),...u16(central.length/2),...u32(cs),...u32(off),...u16(0)]);
+  return new Blob([...parts,...central,eocd],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
 }
 
-function abrirForms(){ if(ENLACE_FORMS) window.open(ENLACE_FORMS, "_blank", "noopener"); }
+/* ============ IMAGEN PNG DEL RESULTADO ============ */
+const COLOR = {D:"#c0392b", I:"#e8a33d", S:"#2e7d32", C:"#2e75b6"};
 
-/* Validación de configuración al cargar */
-(function(){
-  const malos = [];
-  CFG.grupos.forEach(function(g,i){
-    const s = g.map(function(o){return o.d;}).sort().join("");
-    if(g.length!==4 || s!=="CDIS") malos.push(i+1);
+function dibujarResultado(cv){
+  const W=700, H=620, e=2;            // e = escala para que se vea nítido
+  cv.width=W*e; cv.height=H*e;
+  const x=cv.getContext("2d");
+  x.scale(e,e);
+  x.textBaseline="alphabetic";
+  const r=ULTIMO;
+
+  // fondo
+  x.fillStyle="#ffffff"; x.fillRect(0,0,W,H);
+  // encabezado
+  x.fillStyle="#1f4e79"; x.fillRect(0,0,W,92);
+  x.fillStyle="#ffffff"; x.textAlign="center";
+  x.font="bold 27px Segoe UI, Arial, sans-serif";
+  x.fillText("Test DISC: Conoce tu Perfil", W/2, 42);
+  x.font="15px Segoe UI, Arial, sans-serif";
+  x.fillText("Resultado individual", W/2, 68);
+
+  // datos de la persona
+  x.textAlign="left"; x.fillStyle="#1f2430";
+  x.font="bold 19px Segoe UI, Arial, sans-serif";
+  x.fillText(recortar(x, persona.nombre, 620), 40, 128);
+  x.fillStyle="#5a6472"; x.font="14px Segoe UI, Arial, sans-serif";
+  x.fillText(recortar(x, persona.correo+"  ·  "+persona.puesto, 620), 40, 151);
+  x.fillText("Fecha: "+new Date().toLocaleString("es-MX"), 40, 172);
+  x.strokeStyle="#d8dee6"; x.beginPath(); x.moveTo(40,188); x.lineTo(W-40,188); x.stroke();
+
+  // cuatro tarjetas D I S C
+  const nom={D:"Dominancia",I:"Influencia",S:"Estabilidad",C:"Cumplimiento"};
+  const an=148, sep=12, x0=40;
+  FACTORES.forEach(([k],i)=>{
+    const px=x0+i*(an+sep), py=206;
+    x.fillStyle="#f7fafd"; x.strokeStyle=COLOR[k]; x.lineWidth=2;
+    redondeado(x,px,py,an,116,10); x.fill(); x.stroke();
+    x.fillStyle=COLOR[k]; x.textAlign="center";
+    x.font="bold 44px Segoe UI, Arial, sans-serif"; x.fillText(k, px+an/2, py+50);
+    x.fillStyle="#5a6472"; x.font="13px Segoe UI, Arial, sans-serif";
+    x.fillText(nom[k], px+an/2, py+72);
+    x.fillStyle="#1f2430"; x.font="bold 15px Segoe UI, Arial, sans-serif";
+    const d=r.dif[k];
+    x.fillText("Más "+r.mas[k]+"  ·  Menos "+r.menos[k], px+an/2, py+94);
+    x.fillStyle=COLOR[k];
+    x.fillText("Dif. "+(d>0?"+":"")+d, px+an/2, py+112);
   });
-  if(malos.length) console.warn("Grupos mal configurados (deben tener una D, I, S y C):", malos);
-})();
+
+  // gráfica de barras (diferencia)
+  x.textAlign="left"; x.fillStyle="#1f4e79";
+  x.font="bold 16px Segoe UI, Arial, sans-serif";
+  x.fillText("Gráfica III — Diferencia (Más − Menos)", 40, 356);
+
+  const gx=70, gy=386, gw=W-110, gh=170, cero=gy+gh/2;
+  let tope=1; FACTORES.forEach(([k])=>{ tope=Math.max(tope, Math.abs(r.dif[k])); });
+  const esc=(gh/2-16)/tope;
+  // eje cero
+  x.strokeStyle="#c3ccd8"; x.lineWidth=1;
+  x.beginPath(); x.moveTo(gx-22,cero); x.lineTo(gx+gw,cero); x.stroke();
+  x.fillStyle="#8a94a2"; x.font="12px Segoe UI, Arial, sans-serif"; x.textAlign="right";
+  x.fillText("0", gx-28, cero+4);
+
+  const bw=58, paso=gw/4;
+  FACTORES.forEach(([k],i)=>{
+    const d=r.dif[k];
+    const cx=gx+paso*i+paso/2, alto=Math.abs(d)*esc;
+    const py=d>=0 ? cero-alto : cero;
+    x.fillStyle=COLOR[k];
+    redondeado(x, cx-bw/2, py, bw, Math.max(alto,2), 4); x.fill();
+    // valor
+    x.textAlign="center"; x.font="bold 14px Segoe UI, Arial, sans-serif";
+    x.fillText((d>0?"+":"")+d, cx, d>=0 ? py-7 : py+alto+18);
+    // etiqueta del factor
+    x.fillStyle="#1f2430"; x.font="bold 16px Segoe UI, Arial, sans-serif";
+    x.fillText(k, cx, gy+gh+22);
+  });
+
+  // pie
+  x.textAlign="center"; x.fillStyle="#8a94a2";
+  x.font="12px Segoe UI, Arial, sans-serif";
+  x.fillText("Documento informativo con puntajes. La interpretación del perfil corresponde a Recursos Humanos.", W/2, H-34);
+  x.fillText("Uso interno · Información confidencial", W/2, H-16);
+}
+function redondeado(x,px,py,w,h,rad){
+  const q=Math.min(rad,w/2,h/2);
+  x.beginPath();
+  x.moveTo(px+q,py); x.lineTo(px+w-q,py); x.quadraticCurveTo(px+w,py,px+w,py+q);
+  x.lineTo(px+w,py+h-q); x.quadraticCurveTo(px+w,py+h,px+w-q,py+h);
+  x.lineTo(px+q,py+h); x.quadraticCurveTo(px,py+h,px,py+h-q);
+  x.lineTo(px,py+q); x.quadraticCurveTo(px,py,px+q,py); x.closePath();
+}
+function recortar(x,txt,max){
+  txt=String(txt);
+  if(x.measureText(txt).width<=max) return txt;
+  while(txt.length>4 && x.measureText(txt+"…").width>max) txt=txt.slice(0,-1);
+  return txt+"…";
+}
+function descargarImagen(){
+  if(!ULTIMO) return;
+  const cv=$("lienzo");
+  dibujarResultado(cv);
+  ver("vistaPrevia",true);
+  const nombreArch = "DISC_" + persona.nombre.replace(/[^A-Za-z0-9ÁÉÍÓÚÑáéíóúñ ]/g,"").trim().replace(/\s+/g,"_") +
+                     "_" + new Date().toISOString().slice(0,10) + ".png";
+  if(cv.toBlob){ cv.toBlob(b=>bajar(b, nombreArch), "image/png"); }
+  else { const a=document.createElement("a"); a.href=cv.toDataURL("image/png"); a.download=nombreArch; a.click(); }
+}
+$("btnImagen").onclick = descargarImagen;
+
+/* ============ PANEL DE RRHH (#rrhh) ============ */
+function abrirPanel(){
+  ["p1","p2","p3","p4"].forEach(p=>ver(p,false));
+  ver("p5",true); pintarPanel(); window.scrollTo(0,0);
+}
+function pintarPanel(){
+  const lista = leerRegistros();
+  $("panelResumen").innerHTML = lista.length
+    ? "Tests guardados en este equipo: <strong>"+lista.length+"</strong>"
+    : "Todavía no hay tests guardados en este equipo.";
+  $("tblPanel").innerHTML = lista.length ? (
+    "<thead><tr><th>#</th><th>Nombre</th><th>Correo</th><th>Puesto</th><th>Fecha</th>" +
+    FACTORES.map(([k])=>"<th>"+k+" Dif</th>").join("") + "</tr></thead><tbody>" +
+    lista.map((r,i)=>"<tr><td>"+(i+1)+"</td><td>"+r.persona.nombre+"</td><td>"+r.persona.correo+
+      "</td><td>"+r.persona.puesto+"</td><td>"+new Date(r.fecha).toLocaleString("es-MX")+"</td>" +
+      FACTORES.map(([k])=>"<td><strong>"+(r.dif[k]>0?"+":"")+r.dif[k]+"</strong></td>").join("")+"</tr>").join("") +
+    "</tbody>") : "";
+  $("btnExcelTodos").disabled = !lista.length;
+  $("btnBorrar").disabled = !lista.length;
+}
+$("lnkPanel").onclick = e => { e.preventDefault(); if(!enviado && resp.some(r=>r.mas!==null||r.menos!==null)){ if(!confirm("Hay un test a medias. ¿Salir al panel de RRHH de todos modos?")) return; } abrirPanel(); };
+if(location.hash === "#rrhh") abrirPanel();
+$("btnSalirPanel").onclick = ()=>{ ver("p5",false); ver("p1",true); window.scrollTo(0,0); };
+$("btnBorrar").onclick = ()=>{
+  const n = leerRegistros().length;
+  if(!confirm("Se borrarán los "+n+" registros guardados en este equipo. Esta acción NO se puede deshacer.\n\nDescargue antes el Excel consolidado.\n\n¿Continuar?")) return;
+  if(!confirm("Confirme una vez más: ¿borrar definitivamente los "+n+" registros?")) return;
+  localStorage.removeItem(BODEGA); pintarPanel();
+};
+$("btnExcelTodos").onclick = ()=>{
+  const lista = leerRegistros();
+  if(!lista.length) return;
+  const resumen = [["#","Fecha y hora","Nombre completo","Correo electrónico","Profesión / Puesto",
+      "D Más","I Más","S Más","C Más","D Menos","I Menos","S Menos","C Menos","D Dif","I Dif","S Dif","C Dif"]];
+  const detalle = [["#","Nombre completo","Correo electrónico","Grupo","Palabra MÁS","Factor MÁS","Palabra MENOS","Factor MENOS"]];
+  lista.forEach((r,i)=>{
+    const n = i+1;
+    resumen.push([n, new Date(r.fecha).toLocaleString("es-MX"), r.persona.nombre, r.persona.correo, r.persona.puesto,
+      ...FACTORES.map(([k])=>r.mas[k]), ...FACTORES.map(([k])=>r.menos[k]), ...FACTORES.map(([k])=>r.dif[k])]);
+    r.detalle.forEach(d=>detalle.push([n, r.persona.nombre, r.persona.correo, d.grupo, d.palMas, d.facMas, d.palMenos, d.facMenos]));
+  });
+  bajar(construirXLSX([{nombre:"Resultados",filas:resumen},{nombre:"Detalle",filas:detalle}]),
+        "DISC_Consolidado_" + new Date().toISOString().slice(0,10) + ".xlsx");
+};
+
+/* Evitar cierre accidental con el test a medias */
+window.addEventListener("beforeunload", e=>{
+  if(!enviado && (resp.some(r=>r.mas!==null||r.menos!==null))){ e.preventDefault(); e.returnValue=""; }
+});
 </script>
 </body>
 </html>
