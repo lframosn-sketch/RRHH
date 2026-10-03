@@ -169,11 +169,10 @@
   </div>
 
   <table class="pts">
-    <thead><tr><th>Factor</th><th>MÁS<br>(Gráfica I)</th><th>MENOS<br>(Gráfica II)</th><th>MÁS − MENOS<br>(Gráfica III)</th><th>Valor<br>equivalente</th></tr></thead>
+    <thead><tr><th>Factor</th><th>Valor</th></tr></thead>
     <tbody id="tblPts"></tbody>
   </table>
-  <p class="ayuda">El <strong>Valor equivalente</strong> se obtiene buscando la diferencia (Más − Menos) de cada factor en la tabla de escalas oficial.</p>
-  <p class="ayuda" id="notaFuera" style="display:none;color:#8c1d18">* Esta diferencia queda fuera del rango publicado en la tabla; se tomó el valor del extremo más cercano. Confírmelo con Recursos Humanos.</p>
+  <p class="ayuda" id="notaFuera" style="display:none;color:#8c1d18">* Uno de los resultados quedó fuera del rango publicado en la tabla; se tomó el valor del extremo más cercano. Confírmelo con Recursos Humanos.</p>
 
   <h3>Gráfica de valores DISC</h3>
   <canvas id="lienzoG" style="width:100%;max-width:620px;border:1px solid var(--borde);border-radius:10px"></canvas>
@@ -917,13 +916,11 @@ function mostrar(res){
   $("idDatos").innerHTML = `<strong>${persona.nombre}</strong> &middot; ${persona.correo} &middot; ${persona.puesto}<br>
     <span class="ayuda">Fecha de envío: ${new Date().toLocaleString("es-MX")}</span>`;
   ["D","I","S","C"].forEach(k=>{
-    $("r"+k).innerHTML = `Más <strong>${res.mas[k]}</strong> &middot; Menos <strong>${res.menos[k]}</strong><br>` +
-      `Dif. <strong>${res.dif[k]>0?"+":""}${res.dif[k]}</strong><br>` +
-      `<span style="font-size:22px;font-weight:700;color:${COLOR[k]}">${res.valor[k]}</span>`;
+    $("r"+k).innerHTML = `<span style="font-size:30px;font-weight:700;color:${COLOR[k]}">${res.valor[k]}</span>`;
   });
   $("tblPts").innerHTML = FACTORES.map(([k,n])=>
-    `<tr><td><strong>${k}</strong> — ${n}</td><td>${res.mas[k]}</td><td>${res.menos[k]}</td><td><strong>${res.dif[k]>0?"+":""}${res.dif[k]}</strong></td><td><strong>${res.valor[k]}</strong>${res.fuera[k]?" *":""}</td></tr>`
-  ).join("") + `<tr style="background:#f7fafd"><td><strong>Total</strong></td><td>${res.mas.D+res.mas.I+res.mas.S+res.mas.C}</td><td>${res.menos.D+res.menos.I+res.menos.S+res.menos.C}</td><td>—</td><td>—</td></tr>`;
+    `<tr><td><strong>${k}</strong> — ${n}</td><td><strong>${res.valor[k]}</strong>${res.fuera[k]?" *":""}</td></tr>`
+  ).join("");
   $("notaFuera").style.display = ["D","I","S","C"].some(k=>res.fuera[k]) ? "block" : "none";
   dibujarGrafica($("lienzoG"), res);
 }
@@ -985,8 +982,6 @@ function graficaEn(x, res, ox, oy, W, H, conTitulo){
     x.fillText(k, cx, my+gh+26);
     x.fillStyle="#5a6472"; x.font="11px Segoe UI, Arial, sans-serif";
     x.fillText(n, cx, my+gh+42);
-    x.fillStyle="#8a94a2"; x.font="11px Segoe UI, Arial, sans-serif";
-    x.fillText("Dif. "+(res.dif[k]>0?"+":"")+res.dif[k], cx, my+gh+56);
   });
 
   if(conTitulo){
@@ -1086,7 +1081,7 @@ function zipStore(files){
 const COLOR = {D:"#c0392b", I:"#e8a33d", S:"#2e7d32", C:"#2e75b6"};
 
 function dibujarResultado(cv){
-  const W=700, H=780, e=2;            // e = escala para que se vea nítido
+  const W=700, H=740, e=2;            // e = escala para que se vea nítido
   cv.width=W*e; cv.height=H*e;
   const x=cv.getContext("2d");
   x.scale(e,e);
@@ -1118,24 +1113,20 @@ function dibujarResultado(cv){
   FACTORES.forEach(([k],i)=>{
     const px=x0+i*(an+sep), py=206;
     x.fillStyle="#f7fafd"; x.strokeStyle=COLOR[k]; x.lineWidth=2;
-    redondeado(x,px,py,an,140,10); x.fill(); x.stroke();
+    redondeado(x,px,py,an,116,10); x.fill(); x.stroke();
     x.fillStyle=COLOR[k]; x.textAlign="center";
-    x.font="bold 40px Segoe UI, Arial, sans-serif"; x.fillText(k, px+an/2, py+46);
+    x.font="bold 36px Segoe UI, Arial, sans-serif"; x.fillText(k, px+an/2, py+44);
     x.fillStyle="#5a6472"; x.font="13px Segoe UI, Arial, sans-serif";
-    x.fillText(nom[k], px+an/2, py+66);
-    x.fillStyle="#1f2430"; x.font="14px Segoe UI, Arial, sans-serif";
-    const d=r.dif[k];
-    x.fillText("Más "+r.mas[k]+"  ·  Menos "+r.menos[k], px+an/2, py+88);
-    x.fillText("Dif. "+(d>0?"+":"")+d, px+an/2, py+107);
-    x.fillStyle=COLOR[k]; x.font="bold 26px Segoe UI, Arial, sans-serif";
-    x.fillText(r.valor[k], px+an/2, py+132);
+    x.fillText(nom[k], px+an/2, py+64);
+    x.fillStyle=COLOR[k]; x.font="bold 34px Segoe UI, Arial, sans-serif";
+    x.fillText(r.valor[k], px+an/2, py+104);
   });
 
   // gráfica de línea vertical con los valores de la tabla
   x.textAlign="left"; x.fillStyle="#1f4e79";
   x.font="bold 16px Segoe UI, Arial, sans-serif";
-  x.fillText("Gráfica de valores DISC", 40, 378);
-  graficaEn(x, r, 30, 390, 640, 330, false);
+  x.fillText("Gráfica de valores DISC", 40, 356);
+  graficaEn(x, r, 30, 368, 640, 320, false);
 
   // pie
   x.textAlign="center"; x.fillStyle="#8a94a2";
