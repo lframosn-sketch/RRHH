@@ -160,23 +160,18 @@
     <canvas id="lienzo" style="width:100%;max-width:700px;border:1px solid var(--borde);border-radius:10px"></canvas>
   </div>
 
-  <h3>Puntajes por factor</h3>
+  <h3>Su resultado</h3>
   <div class="res">
-    <div class="b"><div class="l">D</div><div class="n">Dominancia</div><div style="font-size:15px;margin-top:6px" id="rD"></div></div>
-    <div class="b"><div class="l">I</div><div class="n">Influencia</div><div style="font-size:15px;margin-top:6px" id="rI"></div></div>
-    <div class="b"><div class="l">S</div><div class="n">Estabilidad</div><div style="font-size:15px;margin-top:6px" id="rS"></div></div>
-    <div class="b"><div class="l">C</div><div class="n">Cumplimiento</div><div style="font-size:15px;margin-top:6px" id="rC"></div></div>
+    <div class="b"><div class="l">D</div><div class="n">Dominancia</div><div id="rD"></div></div>
+    <div class="b"><div class="l">I</div><div class="n">Influencia</div><div id="rI"></div></div>
+    <div class="b"><div class="l">S</div><div class="n">Estabilidad</div><div id="rS"></div></div>
+    <div class="b"><div class="l">C</div><div class="n">Cumplimiento</div><div id="rC"></div></div>
   </div>
-
-  <table class="pts">
-    <thead><tr><th>Factor</th><th>Valor</th></tr></thead>
-    <tbody id="tblPts"></tbody>
-  </table>
   <p class="ayuda" id="notaFuera" style="display:none;color:#8c1d18">* Uno de los resultados quedó fuera del rango publicado en la tabla; se tomó el valor del extremo más cercano. Confírmelo con Recursos Humanos.</p>
 
   <h3>Gráfica de valores DISC</h3>
   <canvas id="lienzoG" style="width:100%;max-width:620px;border:1px solid var(--borde);border-radius:10px"></canvas>
-  <p class="ayuda">Este reporte muestra únicamente los puntajes obtenidos. La interpretación del perfil la realiza el área de Recursos Humanos.</p>
+  <p class="ayuda">Este reporte muestra únicamente sus valores obtenidos. La interpretación del perfil la realiza el área de Recursos Humanos.</p>
 </section>
 
 <!-- ===================== PANEL RRHH ===================== -->
@@ -916,11 +911,9 @@ function mostrar(res){
   $("idDatos").innerHTML = `<strong>${persona.nombre}</strong> &middot; ${persona.correo} &middot; ${persona.puesto}<br>
     <span class="ayuda">Fecha de envío: ${new Date().toLocaleString("es-MX")}</span>`;
   ["D","I","S","C"].forEach(k=>{
-    $("r"+k).innerHTML = `<span style="font-size:30px;font-weight:700;color:${COLOR[k]}">${res.valor[k]}</span>`;
+    $("r"+k).innerHTML = `<span style="font-size:34px;font-weight:700;color:${COLOR[k]}">${res.valor[k]}</span>` +
+      (res.fuera[k] ? `<span style="color:#c62828">&nbsp;*</span>` : "");
   });
-  $("tblPts").innerHTML = FACTORES.map(([k,n])=>
-    `<tr><td><strong>${k}</strong> — ${n}</td><td><strong>${res.valor[k]}</strong>${res.fuera[k]?" *":""}</td></tr>`
-  ).join("");
   $("notaFuera").style.display = ["D","I","S","C"].some(k=>res.fuera[k]) ? "block" : "none";
   dibujarGrafica($("lienzoG"), res);
 }
