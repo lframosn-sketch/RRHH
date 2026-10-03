@@ -870,7 +870,6 @@ $("btnVolver").onclick = ()=>{ if(enviado) return; ver("p3",false); ver("p2",tru
 
 $("btnEnviar").onclick = ()=>{
   if(enviado) return;
-  if(!confirm("¿Confirma el envío? Después de enviar NO podrá modificar sus respuestas.")) return;
   enviado = true;
   $("btnEnviar").disabled = true; $("btnVolver").disabled = true;
   const res = calcular();
